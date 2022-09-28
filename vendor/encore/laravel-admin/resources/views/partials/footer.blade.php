@@ -14,5 +14,5 @@
 
     </div>
     <!-- Default to the left -->
-    <strong>Powered by <a href="javscript:;">Newline Technologies</a></strong>
+    <strong>Powered by <a href="javscript:;">8Tech consults</a></strong>
 </footer>
