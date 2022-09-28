@@ -41,12 +41,12 @@
                                 'text' => 'Create new user',
                             ],
                             [
-                                'link' => admin_url('enterprises/create'),
-                                'text' => 'Create new enterprise',
+                                'link' => admin_url('/'),
+                                'text' => 'Add new case',
                             ],
                             [
-                                'link' => admin_url('enterprises'),
-                                'text' => 'Manage enterprises',
+                                'link' => admin_url('/'),
+                                'text' => 'Manage system',
                             ],
                         ],
                     ])

@@ -15,14 +15,14 @@ class Dropdown implements Renderable
     if ($u->isRole('super-admin')) {
       $links =  [
         [
-          'icon' => 'building',
-          'url' => admin_url('enterprises'),
-          'title' => 'Enterprises',
+          'icon' => 'gavel',
+          'url' => admin_url('/'),
+          'title' => 'Cases',
         ],
         [
           'icon' => 'users',
           'url' => admin_url('auth/users'),
-          'title' => 'Users',
+          'title' => 'Members',
         ],
       ];
     }

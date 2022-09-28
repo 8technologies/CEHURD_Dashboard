@@ -41,8 +41,8 @@ Admin::navbar(function (\Encore\Admin\Widgets\Navbar $navbar) {
 
         if ($u->isRole('super-admin')) {
             $links = [
-                'Create new user' => admin_url('auth/users/create'),
-                'Create new enterprise' => admin_url('enterprises/create'),
+                'Member' => admin_url('/'),
+                'Case' => admin_url('/'),
             ];
         }
         if ($u->isRole('admin')) {
