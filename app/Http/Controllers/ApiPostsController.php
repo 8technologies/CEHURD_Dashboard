@@ -23,7 +23,7 @@ class ApiPostsController extends Controller
 
     public function upload_media(Request $request)
     {
-
+           
         $u = auth('api')->user();
         $administrator_id = $u->id;
 
@@ -38,7 +38,7 @@ class ApiPostsController extends Controller
             $img->src =  $src;
             $img->thumbnail =  null;
             $img->parent_id =  null;
-            $img->size = filesize($_SERVER['DOCUMENT_ROOT'] . '/storage/images/' . $img->src);
+            $img->size = filesize(Utils::docs_root() . '/storage/images/' . $img->src);
             $img->save();
         }
         Utils::process_images_in_backround();

@@ -13,7 +13,13 @@ class Utils  extends Model
 {
 
 
-
+    public static function docs_root($params = array())
+    {
+        $r = $_SERVER['DOCUMENT_ROOT'] . "";
+        $r = str_replace('/public', "", $r);
+        $r = $r . "/public";
+        return $r;
+    }
 
     public static function create_thumbail($params = array())
     {
@@ -112,7 +118,7 @@ class Utils  extends Model
             return "Failed $url";
         }
     }
- 
+
     public static function process_images_in_foreround()
     {
         $imgs = Image::where([
@@ -121,8 +127,8 @@ class Utils  extends Model
 
         foreach ($imgs as $img) {
             $thumb = Utils::create_thumbail([
-                'source' => $_SERVER['DOCUMENT_ROOT'].'/storage/images/' . $img->src,
-                'target' => $_SERVER['DOCUMENT_ROOT'].'/storage/images/thumb_' . $img->src,
+                'source' => Utils::docs_root() . '/storage/images/' . $img->src,
+                'target' => Utils::docs_root() . '/storage/images/thumb_' . $img->src,
             ]);
             if ($thumb != null) {
                 if (strlen($thumb) > 4) {
@@ -132,7 +138,7 @@ class Utils  extends Model
             }
         }
     }
- 
+
 
 
     public static function upload_images_1($files, $is_single_file = false)
@@ -154,7 +160,7 @@ class Utils  extends Model
             ) {
                 $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
                 $file_name = time() . "-" . rand(100000, 1000000) . "." . $ext;
-                $destination = $_SERVER['DOCUMENT_ROOT'].'/storage/images/' . $file_name;
+                $destination = Utils::docs_root() . '/storage/images/' . $file_name;
 
                 $res = move_uploaded_file($file['tmp_name'], $destination);
                 if (!$res) {
@@ -173,9 +179,9 @@ class Utils  extends Model
 
         return $is_single_file ? $single_file : $uploaded_images;
     }
-    
 
- 
+
+
 
     public static function phone_number_is_valid($phone_number)
     {
