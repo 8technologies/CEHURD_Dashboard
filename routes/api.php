@@ -23,6 +23,8 @@ Route::group(['middleware' => 'api'], function ($router) {
     //posts
     Route::post("post-media-upload", [ApiPostsController::class, 'upload_media']);
     Route::post("post", [ApiPostsController::class, 'create_post']);
+
 }); 
 
+Route::get("cases", [ApiPostsController::class, 'index']);
 Route::get('process-pending-images', [ApiPostsController::class, 'process_pending_images']);

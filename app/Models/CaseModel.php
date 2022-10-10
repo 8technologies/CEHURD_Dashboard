@@ -9,4 +9,9 @@ class CaseModel extends Model
 {
     use HasFactory;
     protected $table = 'cases';
+
+    public function images(){
+        return $this->hasMany(Image::class,'parent_id');
+    }
+
 }

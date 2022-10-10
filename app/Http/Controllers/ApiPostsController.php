@@ -22,6 +22,11 @@ class ApiPostsController extends Controller
     }
 
 
+    public function index(Request $r)
+    {
+        $data =  CaseModel::where([])->with('images')->get();
+        return $this->success($data, 'Case submitted successfully.');
+    }
     public function create_post(Request $r)
     {
         $u = auth('api')->user();
@@ -42,8 +47,6 @@ class ApiPostsController extends Controller
         if ($r->details == null) {
             return $this->error('Description is required.');
         }
-
-
 
         $c = new CaseModel();
         $c->administrator_id  = $administrator_id;
