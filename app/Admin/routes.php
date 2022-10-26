@@ -36,6 +36,7 @@ Route::group([
     $router->resource('school-fees-payment', SchoolFeesPaymentController::class);
     $router->resource('menu-items', MenuItemController::class);
     $router->resource('main-courses', MainCourseController::class);
+    $router->resource('cases', CaseModelController::class);
     //$router->resource('fees', StudentHasFeeController::class);
 
     $router->get('/', 'HomeController@index')->name('home');

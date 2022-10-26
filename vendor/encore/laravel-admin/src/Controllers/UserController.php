@@ -111,7 +111,7 @@ class UserController extends AdminController
                 Enterprise::all()->pluck('name', 'id')
             )
             ->default(1)
-            ->rules('required');
+            ->rules('required'); 
 
 
         $form->image('avatar', trans('admin.avatar'));

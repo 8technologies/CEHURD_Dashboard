@@ -154,6 +154,7 @@ php artisan admin:make TransactionController --model=App\\Models\\Transaction
 php artisan admin:make SchoolFeesPaymentController --model=App\\Models\\Transaction
 php artisan admin:make MenuItemController --model=App\\Models\\MenuItem
 php artisan admin:make MainCourseController --model=App\\Models\\MainCourse
+php artisan admin:make CaseModelController --model=App\\Models\\CaseModel
 
 
 
