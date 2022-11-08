@@ -90,6 +90,7 @@ class ApiPostsController extends Controller
         }
 
         $images = Utils::upload_images_1($_FILES, false);
+        $_images = [];
         foreach ($images as $src) {
             $img = new Image();
             $img->administrator_id =  $administrator_id;
@@ -98,10 +99,10 @@ class ApiPostsController extends Controller
             $img->parent_id =  null;
             $img->size = filesize(Utils::docs_root() . '/storage/images/' . $img->src);
             $img->save();
+            $_images[] = $img;
         }
         Utils::process_images_in_backround();
-
-        return $this->success($images, 'File uploaded successfully.');
+        return $this->success($_images, 'File uploaded successfully.');
     }
 
     public function process_pending_images()
