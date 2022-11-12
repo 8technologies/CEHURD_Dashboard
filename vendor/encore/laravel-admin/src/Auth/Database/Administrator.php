@@ -2,6 +2,7 @@
 
 namespace Encore\Admin\Auth\Database;
 
+use App\Models\ActivityReport;
 use App\Models\CaseModel;
 use App\Models\Enterprise;
 use App\Models\Location;
@@ -29,6 +30,11 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
     use Notifiable;
 
     protected $fillable = ['username', 'password', 'name', 'avatar'];
+
+    public function reports()
+    {
+        return $this->hasMany(ActivityReport::class, 'reported_by');
+    }
 
     public function cases()
     {
@@ -133,7 +139,8 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
 
 
     /**
-     * A user has and belongs to many roles.
+     * A user has and belongs 
+     * to many roles.
      *
      * @return BelongsToMany
      */

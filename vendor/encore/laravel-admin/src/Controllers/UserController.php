@@ -99,6 +99,9 @@ Edit Edit
         $grid->column('cases', 'Cases Reported')->display(function () {
             return count($this->cases);
         });
+        $grid->column('reports', 'Reports')->display(function () {
+            return count($this->reports);
+        });
 
         $grid->actions(function (Grid\Displayers\Actions $actions) {
             if ($actions->getKey() == 1) {

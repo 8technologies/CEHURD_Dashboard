@@ -2,17 +2,109 @@
 
 namespace Encore\Admin\Controllers;
 
+use App\Models\CaseModel;
 use App\Models\Enterprise;
 use App\Models\StudentHasClass;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Utils;
+use Carbon\Carbon;
 use Encore\Admin\Admin;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 class Dashboard
 {
+
+
+    public static function graph_category()
+    {
+
+        $data = [];
+
+        $data['data'][] = CaseModel::where('case_category', 'Access to medicines/services')->count();
+        $data['labels'][] = 'Medicines';
+
+        $data['data'][] = CaseModel::where('case_category', 'Access to information')->count();
+        $data['labels'][] = 'Information';
+
+        $data['data'][] = CaseModel::where('case_category', 'Health Systems Strengthening')->count();
+        $data['labels'][] = 'Health Systems';
+
+
+        $data['data'][] = CaseModel::where('case_category', 'Health workers’ issues')->count();
+        $data['labels'][] = 'Health workers';
+
+        $data['data'][] = CaseModel::where('case_category', 'HIV/AIDS')->count();
+        $data['labels'][] = 'HIV/AIDS';
+
+        $data['data'][] = CaseModel::where('case_category', 'Maternal Health')->count();
+        $data['labels'][] = 'Maternal health';
+
+        $data['data'][] = CaseModel::where('case_category', 'Sex workers')->count();
+        $data['labels'][] = 'Sex workers';
+
+        $data['data'][] = CaseModel::where('case_category', 'Sexual and Gender-Based Violence')->count();
+        $data['labels'][] = 'Gender-Based Violence';
+
+        $data['data'][] = CaseModel::where('case_category', 'Abortion cases')->count();
+        $data['labels'][] = 'Abortion';
+
+        $data['data'][] = CaseModel::where('case_category', 'Other cases')->count();
+        $data['labels'][] = 'Other cases';
+
+
+
+
+
+
+        return view('dashboard.graph_category', $data);
+    }
+
+    public static function graph_gender()
+    {
+
+        $data = [];
+        $data['males'] = CaseModel::where('sex', 'Male')->count();
+        $data['females'] = CaseModel::where('sex', 'Female')->count();
+        $data['labels'][] = 'Male';
+        $data['labels'][] = 'Female';
+
+        return view('dashboard.graph_gender', $data);
+    }
+
+
+    public static function grahp_cases()
+    {
+
+        $data = [];
+        for ($i = 12; $i >= 0; $i--) {
+            $min = new Carbon();
+            $max = new Carbon();
+            $max->subDays($i);
+            $min->subDays(($i + 1));
+            $count = CaseModel::whereBetween('created_at', [$min, $max])->count();
+            $Solved = CaseModel::whereBetween('created_at', [$min, $max])
+                ->where([
+                    'status' => 'Solved'
+                ])
+                ->count();
+            $Closed = CaseModel::whereBetween('created_at', [$min, $max])
+                ->where([
+                    'status' => 'Closed'
+                ])
+                ->count();
+            $data['data'][] = $count;
+            $data['reported_cases'][] = $count;
+            $data['Solved'][] = $Solved;
+            $data['Closed'][] = $Closed;
+            $data['labels'][] = Utils::my_date($max);
+        }
+
+        return view('dashboard.grahp_cases', $data);
+    }
+
+
 
     public static function help_videos()
     {

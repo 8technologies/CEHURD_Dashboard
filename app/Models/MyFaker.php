@@ -9,6 +9,67 @@ use Faker\Factory as Faker;
 class MyFaker  extends Model
 {
 
+    public static function make_reports($max = 20)
+    {
+
+        ini_set('memory_limit', '-1');
+        set_time_limit('-1');
+
+        $admins = [];
+        $f = Faker::create();
+        $statuses = Utils::case_statuses();
+
+        foreach (Administrator::all() as $key => $u) {
+            $admins[] = $u->id;
+        }
+        $sub_counties = [];
+
+        foreach (Location::get_sub_counties() as $v) {
+            $sub_counties[] = $v->id;
+        }
+
+
+        $cats = Utils::case_categpries();
+        $statuses = Utils::case_statuses();
+        $bools = [0, 1];
+        $sex = ['Male', 'Female'];
+        for ($i = 0; $i < $max; $i++) {
+            $c = new ActivityReport();
+            shuffle($admins);
+            shuffle($cats);
+            shuffle($sub_counties);
+            shuffle($statuses);
+            shuffle($bools);
+            shuffle($sex);
+            shuffle($bools);
+            $c->created_at = $f->dateTimeBetween('-1 year');
+            $c->activity_date = $f->dateTimeBetween('-1 year');
+            $c->facilitator_name = $f->name();
+            $c->facilitator_title = $f->jobTitle();
+            $c->activity_venue = $f->address();
+            $c->activity_description = $f->randomHtml();
+            $c->how_issues_will_be_followed_up = $f->randomHtml();
+            $c->recommendations = $f->randomHtml();
+            $c->number_of_conducted = $f->phoneNumber();
+            $c->lessons_learned = $f->randomHtml();
+            $c->challanges_solutions = $f->randomHtml();
+            $c->challanges_faced = $f->randomHtml();
+            $c->issues_raised = $f->randomHtml();
+            $c->sub_county = $sub_counties[4];
+            $c->activity_duration = rand(2, 10);
+            $c->number_of_attended = rand(10, 300);
+            $c->reported_by = $admins[3];
+            $c->approved_by = $admins[4];
+            $c->status = $statuses[1];
+            $c->activity_title = $f->sentence();
+            $c->action_done = $f->randomHtml();
+            $c->save();
+  
+        }
+ 
+    }
+
+
     public static function make_cases($max = 20)
     {
 
@@ -18,7 +79,7 @@ class MyFaker  extends Model
         $admins = [];
         $f = Faker::create();
         $statuses = Utils::case_statuses();
-       
+
         foreach (Administrator::all() as $key => $u) {
             $admins[] = $u->id;
         }
@@ -53,7 +114,7 @@ class MyFaker  extends Model
             $c->response = $f->sentence(300);
             $c->phone_number_1 = $f->phoneNumber();
             $c->phone_number_2 = $f->phoneNumber();
-            $c->village = $f->word(); 
+            $c->village = $f->word();
             $c->request = $f->sentence(200);
             $c->address = $f->sentence(45);
             $c->applicant_name = $f->name();
@@ -62,11 +123,13 @@ class MyFaker  extends Model
             $c->is_court = $bools[1];
             $c->sex = $sex[1];
             $c->is_authority = $bools[1];
-            $c->save(); 
+            $c->save();
         }
 
         dd(":=-=:");
     }
+
+
     public static function make_users($max = 20)
     {
 

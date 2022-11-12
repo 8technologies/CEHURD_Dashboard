@@ -13,20 +13,38 @@ use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
 use Encore\Admin\Widgets\Box;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
     public function index(Content $content)
     {
 
+        //MyFaker::make_reports(2200);
         //MyFaker::make_cases(10000);
         //MyFaker::make_users(1000);
         // dd("done");
-        Admin::style('.content-header {display: none;}');
-        $u = Admin::user();
-        return $content->view('admin.index', [
-            'u' => $u
-        ]);
+
+        $content
+            ->title('CEHURD - Dashboard')
+            ->description('Hello ' . Auth::user()->name . "!");
+
+
+
+        $content->row(function (Row $row) {
+            $row->column(4, function (Column $column) {
+                $column->append(Dashboard::grahp_cases());
+            });
+
+            $row->column(2, function (Column $column) {
+                $column->append(Dashboard::graph_gender());
+            });
+            $row->column(2, function (Column $column) {
+                $column->append(Dashboard::graph_category());
+            });
+        });
+
+        return $content;
     }
 
 

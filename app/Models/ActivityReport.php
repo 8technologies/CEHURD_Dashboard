@@ -5,15 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CaseModel extends Model
+class ActivityReport extends Model
 {
-    use HasFactory;
-    protected $table = 'cases';
-
-    public function images()
-    {
-        return $this->hasMany(Image::class, 'parent_id');
-    }
+    use HasFactory; 
 
 
     public static function boot()
@@ -23,8 +17,7 @@ class CaseModel extends Model
         self::creating(function ($m) {
 
 
-            $m->phone_number_1 = Utils::prepare_phone_number($m->phone_number_1);
-            $m->phone_number_2 = Utils::prepare_phone_number($m->phone_number_2);
+            $m->number_of_conducted = Utils::prepare_phone_number($m->number_of_conducted);
 
             $m->district = 1;
             if ($m->sub_county != null) {

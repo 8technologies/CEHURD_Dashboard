@@ -87,7 +87,7 @@ class CaseModelController extends AdminController
                     . "&search_by_1=name"
                     . "&search_by_2=id"
                     . "&model=User"
-            );
+            ); 
 
             $f->equal('administrator_id', 'Filter by reporter')->select(function ($id) {
                 $a = User::find($id);
@@ -120,6 +120,7 @@ class CaseModelController extends AdminController
             ->display(function ($f) {
                 return Utils::get(Location::class, $f)->name_text;
             })->sortable();
+            
         $grid->column('is_authority', __('Authority'))
             ->using([
                 null => 'Not in Authority',

@@ -11,6 +11,7 @@ Route::group([
     'as'            => config('admin.route.prefix') . '.',
 ], function (Router $router) {
 
+    $router->resource('activity-reports', ActivityReportController::class);
     $router->resource('members', EmployeesController::class);
     $router->get('/statistics', 'HomeController@stats')->name('home');
     $router->resource('books-categories', BooksCategoryController::class);
