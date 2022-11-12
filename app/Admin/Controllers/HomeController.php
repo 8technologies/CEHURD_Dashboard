@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\MenuItem;
+use App\Models\MyFaker;
 use App\Models\Utils;
 use Encore\Admin\Auth\Database\Administrator;
 use Encore\Admin\Controllers\Dashboard;
@@ -17,12 +18,19 @@ class HomeController extends Controller
 {
     public function index(Content $content)
     {
+
+        //MyFaker::make_cases(10000);
+        //MyFaker::make_users(1000);
+        // dd("done");
         Admin::style('.content-header {display: none;}');
         $u = Admin::user();
         return $content->view('admin.index', [
             'u' => $u
         ]);
     }
+
+
+
     public function stats(Content $content)
     {
 

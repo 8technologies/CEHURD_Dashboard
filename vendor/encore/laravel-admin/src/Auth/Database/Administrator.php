@@ -2,8 +2,11 @@
 
 namespace Encore\Admin\Auth\Database;
 
+use App\Models\CaseModel;
 use App\Models\Enterprise;
+use App\Models\Location;
 use App\Models\StudentHasClass;
+use App\Models\Utils;
 use Encore\Admin\Traits\DefaultDatetimeFormat;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -27,43 +30,51 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
 
     protected $fillable = ['username', 'password', 'name', 'avatar'];
 
+    public function cases()
+    {
+        return $this->hasMany(CaseModel::class);
+    }
+
     public static function boot()
     {
         parent::boot();
 
-        self::creating(function ($model) {
-            /* if ($model->enterprise_id == null) {
-                die("enterprise is required");
+        self::creating(function ($m) {
+            $m->username = $m->email;
+            $m->name = $m->first_name . " " . $m->middle_name . " " . $m->last_name;
+
+            $m->phone_number_1 = Utils::prepare_phone_number($m->phone_number_1);
+            $m->phone_number_2 = Utils::prepare_phone_number($m->phone_number_2);
+
+            $m->district_id = 1;
+            if ($m->sub_county_id != null) {
+                $sub = Location::find($m->sub_county_id);
+                if ($sub != null) {
+                    $m->district_id = $sub->parent;
+                }
             }
-            $enterprise_id = ((int)($model->enterprise_id));
-            $e = Enterprise::find($enterprise_id);
-            if ($e == null) {
-                die("enterprise is required");
-            }
-            $model->name = $model->first_name . " " . $model->last_name;
-            return $model; */
         });
 
         self::created(function ($model) {
             //created
         });
 
-        self::updating(function ($model) {
-            if ($model->enterprise_id == null) {
-                die("enterprise is required");
-            }
-            $enterprise_id = ((int)($model->enterprise_id));
-            $e = Enterprise::find($enterprise_id);
-            if ($e == null) {
-                die("enterprise is required");
-            }
-            if ($model->first_name != null) {
-                if (strlen($model->first_name) > 2) {
-                    $model->name = $model->first_name . " " . $model->last_name;
+        self::updating(function ($m) {
+
+            $m->district_id = 1;
+            if ($m->sub_county_id != null) {
+                $sub = Location::find($m->sub_county_id);
+                if ($sub != null) {
+                    $m->district_id = $sub->parent;
                 }
             }
 
-            return $model;
+            $m->username = $m->email;
+            $m->phone_number_1 = Utils::prepare_phone_number($m->phone_number_1);
+            $m->phone_number_2 = Utils::prepare_phone_number($m->phone_number_2);
+            $m->name = $m->first_name . " " . $m->middle_name . " " . $m->last_name;
+
+            return $m;
         });
 
         self::updated(function ($model) {
@@ -105,20 +116,21 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
      */
     public function getAvatarAttribute($avatar)
     {
-        if (url()->isValidUrl($avatar)) {
-            return $avatar;
+        if ($avatar == null || strlen($avatar) < 3) {
+            $default = url('assets/logo.png');
+
+            return $default;
         }
+        $avatar = str_replace('images/', '', $avatar);
+        $link = 'storage/images/' . $avatar;
 
-        $disk = config('admin.upload.disk');
-
-        if ($avatar && array_key_exists($disk, config('filesystems.disks'))) {
-            return Storage::disk(config('admin.upload.disk'))->url($avatar);
+        if (!file_exists(public_path($link))) {
+            //dd($avatar);
+            $link = 'assets/logo.png';
         }
-
-        $default = config('admin.default_avatar') ?: '/vendor/laravel-admin/AdminLTE/dist/img/user2-160x160.jpg';
-
-        return admin_asset($default);
+        return url($link);
     }
+
 
     /**
      * A user has and belongs to many roles.

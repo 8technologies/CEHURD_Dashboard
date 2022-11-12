@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => 'NEWLINE - SCHOOLS',
+    'name' => 'CEHURD',
 
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => '<b>NEWLINE - SCHOOLS</b>',
+    'logo' => '<b>CEHURD</b>',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
     | '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo-mini' => '<b>NEWLINE - SCHOOLS</b>',
+    'logo-mini' => '<b>CEHURD</b>',
 
     /*
     |--------------------------------------------------------------------------
@@ -156,7 +156,7 @@ return [
         'disk' => 'admin',
         // Image and file upload path under the disk above.
         'directory' => [
-            'image' => '/',
+            'image' => '/images',
             'file'  => 'files',
         ],
     ],
@@ -207,7 +207,7 @@ return [
     */
     'operation_log' => [
 
-        'enable' => false,
+        'enable' => true,
 
         /*
          * Only logging allowed methods in the list
@@ -411,6 +411,44 @@ return [
         'material-ui' => [
             'enable' => false
         ],
+
+        'grid-lightbox' => [
+
+            // Set to `false` if you want to disable this extension
+            'enable' => true,
+        ],
+
+        'latlong' => [
+
+            // Whether to enable this extension, defaults to true
+            'enable' => true,
+
+            // Specify the default provider
+            'default' => 'google',
+
+            // According to the selected provider above, fill in the corresponding api_key
+            'providers' => [
+                'google' => [
+                    'api_key' => 'AIzaSyAcctJQgkbQQI37Ae_2rAeck-l6nyDRQj0',
+                ],
+                'yandex' => [
+                    'api_key' => '',
+                ],
+
+                'baidu' => [
+                    'api_key' => 'xck5u2lga9n1bZkiaXIHtMufWXQnVhdx',
+                ],
+
+                'tencent' => [
+                    'api_key' => 'VVYBZ-HRJCX-NOJ4Z-ZO3PU-ZZA2J-QPBBT',
+                ],
+
+                'amap' => [
+                    'api_key' => '3693fe745aea0df8852739dac08a22fb',
+                ],
+            ]
+        ],
+
         'quill' => [
             'enable' => true,
             'config' => [
@@ -459,7 +497,9 @@ return [
 
             // According to the selected provider above, fill in the corresponding api_key
             'providers' => [
-
+                'google' => [
+                    'api_key' => 'AIzaSyAcctJQgkbQQI37Ae_2rAeck-l6nyDRQj0',
+                ],
                 'yandex' => [
                     'api_key' => '',
                 ],

@@ -31,7 +31,6 @@ $u = Auth::user();
 Admin::navbar(function (\Encore\Admin\Widgets\Navbar $navbar) {
 
     $u = Auth::user();
-    Utils::system_boot($u);
     $navbar->left(view('admin.search-bar', [
         'u' => $u
     ]));
@@ -39,27 +38,10 @@ Admin::navbar(function (\Encore\Admin\Widgets\Navbar $navbar) {
 
     if ($u != null) {
 
-        if ($u->isRole('super-admin')) {
+        if ($u->isRole('admin')) {
             $links = [
                 'Member' => admin_url('/'),
                 'Case' => admin_url('/'),
-            ];
-        }
-        if ($u->isRole('admin')) {
-            $links = [
-                'Add new staff' => 'employees/create',
-            ];
-        }
-        if ($u->isRole('bursar')) {
-            $links = [
-                'School fees payment' => 'school-fees-payment/create',
-                'Transaction' => 'transactions/create',
-            ];
-        }
-
-        if ($u->isRole('dos')) {
-            $links = [
-                'Admit new student' => 'students/create',
             ];
         }
 
@@ -69,9 +51,7 @@ Admin::navbar(function (\Encore\Admin\Widgets\Navbar $navbar) {
 
         $check_list = [];
         $u = Auth::user();
-        if ($u != null) {
-            $check_list = Utils::system_checklist($u);
-        }
+      
         $navbar->right(view('widgets.admin-links', [
             'items' => $check_list
         ]));

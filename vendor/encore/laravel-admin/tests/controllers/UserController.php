@@ -84,7 +84,11 @@ class UserController extends AdminController
         Form::extend('map', Form\Field\Map::class);
         Form::extend('editor', Form\Field\Editor::class);
 
-        $form = new Form(new User());
+        $form = new Form(new User()); 
+
+        $form->text('profile.first_name');
+        $form->text('profile.last_name');
+        
 
         $form->display('id', 'ID');
         $form->text('username');
@@ -97,8 +101,7 @@ class UserController extends AdminController
 
         $form->divider();
 
-        $form->text('profile.first_name');
-        $form->text('profile.last_name');
+
         $form->text('profile.postcode')->help('Please input your postcode');
         $form->textarea('profile.address')->rows(15);
         $form->map('profile.latitude', 'profile.longitude', 'Position');
