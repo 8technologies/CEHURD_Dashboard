@@ -26,7 +26,7 @@ use App\Models\Utils;
             <b>Cases by gender</b>
         </h3>
         <div>
-            <a href="{{ url('/case-suspects') }}" class="btn btn-sm btn-primary mt-md-4 mt-4">
+            <a href="{{ url('/cases') }}" class="btn btn-sm btn-primary mt-md-4 mt-4">
                 View All
             </a>
         </div>

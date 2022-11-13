@@ -17,6 +17,60 @@ class Dashboard
 {
 
 
+    public static function new_cases()
+    {
+        $new_cases = CaseModel::where([])
+            ->orderBy('created_at', 'Desc')->limit(10)->get();
+
+        return view('dashboard.new_cases', [
+            'items' => $new_cases
+        ]);
+    }
+
+    public static function graph_months()
+    {
+
+        for ($i = 12; $i >= 0; $i--) {
+            $min = new Carbon();
+            $max = new Carbon();
+            $max->subMonths($i);
+            $min->subMonths(($i + 1));
+            $created_at = CaseModel::whereBetween('created_at', [$min, $max])->count();
+            $data['created_at'][] = $created_at;
+            $data['labels'][] = Utils::month($max);
+        }
+
+
+        return view('dashboard.graph_months', $data);
+    }
+    public static function graph_statistics()
+    {
+
+        $data = [];
+
+        $data['data']['Access to medicines/services'] = CaseModel::where('case_category', 'Access to medicines/services')->count();
+
+        $data['data']['Access to information'] = CaseModel::where('case_category', 'Access to information')->count();
+
+        $data['data']['Health Systems Strengthening'] = CaseModel::where('case_category', 'Health Systems Strengthening')->count();
+
+        $data['data']['Health workers’ issues'] = CaseModel::where('case_category', 'Health workers’ issues')->count();
+
+        $data['data']['HIV/AIDS'] = CaseModel::where('case_category', 'HIV/AIDS')->count();
+
+        $data['data']['Maternal Health'] = CaseModel::where('case_category', 'Maternal Health')->count();
+
+        $data['data']['Sex workers'] = CaseModel::where('case_category', 'Sex workers')->count();
+
+        $data['data']['Sexual and Gender-Based Violence'] = CaseModel::where('case_category', 'Sexual and Gender-Based Violence')->count();
+
+        $data['data']['Abortion cases'] = CaseModel::where('case_category', 'Abortion cases')->count();
+
+        $data['data']['Other cases'] = CaseModel::where('case_category', 'Other cases')->count();
+
+        return view('dashboard.graph_statistics', $data);
+    }
+
     public static function graph_category()
     {
 
@@ -52,11 +106,6 @@ class Dashboard
 
         $data['data'][] = CaseModel::where('case_category', 'Other cases')->count();
         $data['labels'][] = 'Other cases';
-
-
-
-
-
 
         return view('dashboard.graph_category', $data);
     }

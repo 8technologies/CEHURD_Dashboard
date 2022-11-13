@@ -14,6 +14,26 @@ class Utils  extends Model
 {
 
 
+    public static function tell_suspect_status_color($status)
+    {
+        switch ($status) {
+            case 'Pending':
+                return 'default';
+                break;
+            case 'Active':
+                return 'warning';
+                break;
+            case 'Solved':
+                return 'success';
+                break;
+            case 'Closed':
+                return 'danger';
+                break;
+            default:
+                return 'default';
+                break;
+        }
+    }
     public static function docs_root($params = array())
     {
         $r = $_SERVER['DOCUMENT_ROOT'] . "";
@@ -297,6 +317,46 @@ class Utils  extends Model
             'Abortion cases' => 'Abortion cases',
             'Other cases' => 'Other cases',
         ];
+    }
+
+
+    public static function month($t)
+    {
+        $c = Carbon::parse($t);
+        if ($t == null) {
+            return $t;
+        }
+        return $c->format('M - Y');
+    }
+
+
+    public static function get_category_pic($cat)
+    {
+        if ($cat == 'General information inquiry') {
+            return url('assets/img/info.png');
+        } else if ($cat == 'Access to medicines/services') {
+            return url('assets/img/medicine.png');
+        } else if ($cat == 'Access to information') {
+            return url('assets/img/info-access.png');
+        } else if ($cat == 'Health Systems Strengthening') {
+            return url('assets/img/health-plus.png');
+        } else if ($cat == 'Health workers’ issues') {
+            return url('assets/img/health-worker.png');
+        } else if ($cat == 'HIV/AIDS') {
+            return url('assets/img/aids.png');
+        } else if ($cat == 'Maternal Health') {
+            return url('assets/img/maternal-health.png');
+        } else if ($cat == 'Sex workers') {
+            return url('assets/img/sex-workers.png');
+        } else if ($cat == 'Sexual and Gender-Based Violence') {
+            return url('assets/img/gender-based.png');
+        } else if ($cat == 'Abortion cases') {
+            return url('assets/img/abortion.png');
+        } else if ($cat == 'Mental Health') {
+            return url('assets/img/mental-health.png');
+        }
+
+        return url('assets/img/abortion.png');
     }
 }
 

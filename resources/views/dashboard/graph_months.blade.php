@@ -23,7 +23,7 @@ use App\Models\Utils;
     <!--begin::Header-->
     <div class="d-flex justify-content-between px-3 px-md-4 ">
         <h3>
-            <b>Cases by categories</b>
+            <b>Last 12 months</b>
         </h3>
         <div>
             <a href="{{ url('/cases') }}" class="btn btn-sm btn-primary mt-md-4 mt-4">
@@ -33,7 +33,13 @@ use App\Models\Utils;
     </div>
     <div class="card-body py-2 py-md-3">
 
-        <canvas id="graph_category" style="width: 100%;"></canvas>
+        {{--  
+ 
+            $data['is_jailed'][] = $is_jailed;
+            $data['is_fined'][] = $is_fined;
+            $data['labels'][] = Utils::month($max);
+    --}}
+        <canvas id="graph_months" style="width: 100%;"></canvas>
         <script>
             $(function() {
 
@@ -52,39 +58,47 @@ use App\Models\Utils;
                 };
 
                 var config = {
-                    type: 'pie',
+                    type: 'bar',
                     data: {
                         labels: JSON.parse('<?php echo json_encode($labels); ?>'),
                         datasets: [{
-                            data: JSON.parse('<?php echo json_encode($data); ?>'),
-                            backgroundColor: [
-                                window.chartColors.red,
-                                window.chartColors.orange,
-                                window.chartColors.yellow,
-                                window.chartColors.green,
-                                window.chartColors.blue,
-                            ],
-                            label: 'Dataset 1'
-                        }],
-
+                            label: 'Cases reported',
+                            borderColor: window.chartColors.blue,
+                            backgroundColor: window.chartColors.blue,
+                            data: JSON.parse('<?php echo json_encode($created_at); ?>'),
+                        }, ]
                     },
                     options: {
                         responsive: true,
-                        legend: {
-                            position: 'top',
-                        },
                         title: {
                             display: true,
-                            text: 'Chart.js Doughnut Chart'
+                            text: 'Chart.js Line Chart - Stacked Area'
                         },
-                        animation: {
-                            animateScale: true,
-                            animateRotate: true
+                        tooltips: {
+                            mode: 'index',
+                        },
+                        hover: {
+                            mode: 'index'
+                        },
+                        scales: {
+                            xAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Month'
+                                }
+                            }],
+                            yAxes: [{
+                                stacked: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Value'
+                                }
+                            }]
                         }
                     }
                 };
 
-                var ctx = document.getElementById('graph_category').getContext('2d');
+                var ctx = document.getElementById('graph_months').getContext('2d');
                 new Chart(ctx, config);
             });
         </script>

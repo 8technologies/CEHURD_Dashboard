@@ -28,9 +28,6 @@ class HomeController extends Controller
         $content
             ->title('CEHURD - Dashboard')
             ->description('Hello ' . Auth::user()->name . "!");
-
-
-
         $content->row(function (Row $row) {
             $row->column(4, function (Column $column) {
                 $column->append(Dashboard::grahp_cases());
@@ -42,7 +39,28 @@ class HomeController extends Controller
             $row->column(2, function (Column $column) {
                 $column->append(Dashboard::graph_category());
             });
+            $row->column(4, function (Column $column) {
+                $column->append(Dashboard::graph_months());
+            });
         });
+
+
+
+        $content->row(function (Row $row) {
+            $row->column(6, function (Column $column) {
+                $column->append(Dashboard::new_cases());
+            });
+            $row->column(6, function (Column $column) {
+                $column->append(Dashboard::graph_statistics());
+            });
+            /* $row->column(3, function (Column $column) {
+                $column->append(Dashboard::cases());
+            });
+            $row->column(3, function (Column $column) {
+                $column->append(Dashboard::comments());
+            }); */
+        });
+
 
         return $content;
     }

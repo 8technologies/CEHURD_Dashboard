@@ -9,7 +9,13 @@ class CaseModel extends Model
 {
     use HasFactory;
     protected $table = 'cases';
+    protected $appends = ['photo_url'];
 
+    public function getPhotoUrlAttribute()
+    {
+        //return url('assets/img/health-plus.png');
+        return Utils::get_category_pic($this->case_category);
+    }
     public function images()
     {
         return $this->hasMany(Image::class, 'parent_id');
@@ -62,5 +68,4 @@ class CaseModel extends Model
             // ... code here
         });
     }
-
 }
