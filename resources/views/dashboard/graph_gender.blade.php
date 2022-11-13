@@ -16,7 +16,7 @@ use App\Models\Utils;
     }
 
     .case-item:hover {
-        background-color: rgb(254, 254, 254);
+        background-color: rgb(254, 254, 254)
     }
 </style>
 <div class="card  mb-4 mb-md-5 border-0">
