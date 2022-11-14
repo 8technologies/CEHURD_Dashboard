@@ -125,7 +125,7 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
         if ($avatar == null || strlen($avatar) < 3) {
             $default = url('assets/logo.png');
 
-            return $default;
+            //return $default;
         }
         $avatar = str_replace('images/', '', $avatar);
         $link = 'storage/images/' . $avatar;
