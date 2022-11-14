@@ -132,7 +132,7 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
 
         if (!file_exists(public_path($link))) {
             //dd($avatar);
-            $link = 'assets/logo.png';
+            //$link = 'assets/logo.png';
         }
         return url($link);
     }
