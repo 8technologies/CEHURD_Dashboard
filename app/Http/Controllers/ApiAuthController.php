@@ -48,34 +48,39 @@ class ApiAuthController extends Controller
     public function login(Request $r)
     {
         if ($r->phone_number == null) {
-            return $this->error('Phone number is required.');
+            return $this->error('Email or Phone number is required.');
         }
         $phone_number = Utils::prepare_phone_number($r->phone_number);
 
-        if (!Utils::phone_number_is_valid($phone_number)) {
-            return $this->error('Invalid phone number.');
-        }
+
         if ($r->password == null) {
             return $this->error('Password is required.');
         }
 
-        $u = Administrator::where('phone_number_1', $phone_number)
-            ->orWhere('username', $phone_number)->first();
+        $u = Administrator::where('email', $r->phone_number)
+            ->orWhere('username', $r->phone_number)
+            ->first();
+
+        if ($u == null) {
+            $u = Administrator::where('phone_number_1', $phone_number)
+                ->first();
+        }
+
         if ($u == null) {
             return $this->error('User account not found.');
         }
 
         //auth('api')->factory()->setTTL(Carbon::now()->addMonth(12)->timestamp);
 
-        Config::set('jwt.ttl', 60*24*30*365);
+        Config::set('jwt.ttl', 60 * 24 * 30 * 365);
 
         $token = auth('api')->attempt([
             'username' => $phone_number,
             'password' => trim($r->password),
         ]);
 
-         
- 
+
+
 
 
         if ($token == null) {
@@ -132,7 +137,7 @@ class ApiAuthController extends Controller
         if ($new_user == null) {
             return $this->error('Account created successfully but failed to log you in.');
         }
-        Config::set('jwt.ttl', 60*24*30*365);
+        Config::set('jwt.ttl', 60 * 24 * 30 * 365);
 
         $token = auth('api')->attempt([
             'username' => $phone_number,
