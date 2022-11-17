@@ -180,17 +180,17 @@ class ActivityReportController extends AdminController
         });
         $form->tab('Activity outcomes', function ($form) {
             $form->decimal('activity_duration', __("Activity duration"))->help('In hours');
-            $form->decimal('number_of_attended', __("How many attended?"))->help('In hours');
+            $form->decimal('number_of_attended', __("How many attended?"));
             $form->quill('issues_raised', __("Issues raised"))
                 ->help('Important Issues raised during implementation (include commitments made by decision makers and problems raised by participants)');
 
             $form->quill('how_issues_will_be_followed_up', __("How will you follow up on the issues identified during this meeting/activity mentioned above?"));
 
-            $form->quill('challanges_faced', __("Challanges faced"))
+            $form->quill('challanges_faced', __("Challenges faced"))
                 ->help('What challenges did you face during the implementation of this activity?');
 
             $form->quill('challanges_solutions', __("Challanges solutions"))
-                ->help('How did you you address challenges you have just menstioned above?');
+                ->help('How did you address challenges you have just menstioned above?');
 
             $form->quill('lessons_learned', __("Lessons learned"))
                 ->help('Lessons learnt while implementing the activity');
