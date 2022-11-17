@@ -13,6 +13,24 @@ use Zebra_Image;
 class Utils  extends Model
 {
 
+    public static function response($data = [])
+    {
+        header('Content-Type: application/json; charset=utf-8');
+        $resp['code'] = "1";
+        $resp['message'] = "Success";
+        $resp['data'] = null;
+        if (isset($data['code'])) {
+            $resp['code'] = $data['code'] . "";
+        }
+        if (isset($data['message'])) {
+            $resp['message'] = $data['message'];
+        }
+        if (isset($data['data'])) {
+            $resp['data'] = $data['data'];
+        }
+        return $resp;
+    }
+
 
     public static function tell_suspect_status_color($status)
     {

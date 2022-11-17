@@ -3,6 +3,8 @@
 use App\Http\Controllers\ApiAuthController;
 use App\Http\Controllers\ApiEnterprisesController;
 use App\Http\Controllers\ApiPostsController;
+use App\Models\Location;
+use App\Models\Utils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +30,22 @@ Route::group(['middleware' => 'api'], function ($router) {
 
 Route::get("cases", [ApiPostsController::class, 'index']);
 Route::get('process-pending-images', [ApiPostsController::class, 'process_pending_images']);
+Route::get('locations', function (){
+
+    $data = [];
+    foreach (Location::All() as $v) {
+        $d['id'] = $v->id;
+        $d['parent'] = $v->parent;
+        $d['name_text'] = $v->name_text;
+        $data[] = $d;
+    }
+
+    return Utils::response([
+        'code' => 1,
+        'message' => "Success.",
+        'data' => $data
+    ]);
+});
 
 
 Route::get('ajax', function (Request $r) {
