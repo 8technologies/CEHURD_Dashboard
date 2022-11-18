@@ -91,7 +91,7 @@ class ApiAuthController extends Controller
 
         if ($token == null) {
             $token = auth('api')->attempt([
-                'phone_number' => $phone_number,
+                'phone_number_1' => $phone_number,
                 'password' => trim($r->password),
             ]);
         }
