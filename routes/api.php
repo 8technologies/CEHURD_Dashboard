@@ -29,6 +29,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post("activities", [ApiPostsController::class, 'create_activity']);
 });
 
+Route::get("categories", [ApiPostsController::class, 'categories']); 
 Route::get("cases", [ApiPostsController::class, 'index']); 
 Route::get('process-pending-images', [ApiPostsController::class, 'process_pending_images']);
 Route::get('locations', function (){

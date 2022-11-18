@@ -24,6 +24,23 @@ class ApiPostsController extends Controller
     }
 
 
+    public function categories(Request $r)
+    {
+        $cats = [];
+        $id = 0;
+        foreach (Utils::case_categpries() as $key => $v) {
+            $id++;
+            $d['id'] = $id;
+            $d['name'] = $v;
+            $d['short'] = $v;
+            $d['url'] = Utils::get_category_pic($v);
+            $d['count'] = CaseModel::where('case_category', $v)->count();
+
+
+            $cats[] = $d;
+        }
+        return $this->success($cats, 'Case submitted successfully.');
+    }
     public function index(Request $r)
     {
         $data =  CaseModel::where([])->with('images')->get();
