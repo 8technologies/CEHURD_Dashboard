@@ -59,26 +59,77 @@ class ApiPostsController extends Controller
             return $this->error('Title is required.');
         }
 
-        if ($r->category == null) {
+        if ($r->case_category == null) {
             return $this->error('Category is required.');
         }
 
-        if ($r->details == null) {
+        if ($r->description == null) {
             return $this->error('Description is required.');
+        }
+        if ($r->sub_county == null) {
+            return $this->error('Sub-county is required.');
+        }
+        if ($r->title == null) {
+            return $this->error('Title is required.');
         }
 
         $c = new CaseModel();
+        $c->sub_county  = $r->sub_county;
         $c->administrator_id  = $administrator_id;
         $c->title  = $r->title;
+        $c->description  = $r->description;
+        $c->response  = $r->response;
         $c->latitude  = $r->latitude;
         $c->longitude  = $r->longitude;
-        $c->description  = $r->details;
-        $c->district  = 1;
-        $c->status  = 0;
-        $c->sub_county  = 1;
-        $c->case_category_id  = 1;
-        $c->response  = null;
+        $c->is_court  = $r->is_court;
+        $c->phone_number_2  = $r->phone_number_2;
+        $c->phone_number_1  = $r->phone_number_1;
+        $c->is_authority  = ($r->is_authority == 'Yes') ? 1 : 0;
+        $c->address  = $r->address;
+        $c->village  = $r->village;
+        $c->sex  = $r->sex;
+        $c->applicant_name  = $r->applicant_name;
+        $c->complaint_method  = $r->complaint_method;
+        $c->case_category  = $r->case_category;
+        $c->request  = $r->request_data;
+        $c->save(); 
+        return $this->success($c, 'Case submitted successfully.');
 
+
+ 
+/* 
+sub_county_text:Adjumani, Adropi
+:Romina K.
+
+
+
+=============================================================================
+
+id	
+created_at	
+updated_at	
+administrator_id	
+	
+district	
+sub_county	
+title	
+description	
+response	
+status	
+latitude	
+longitude	
+is_court	
+is_authority	
+request	
+phone_number_2	
+phone_number_1	
+address	
+village	
+sex	
+applicant_name	
+complaint_method	
+	
+*/
         if ($c->save()) {
 
             $imgs =  Image::where([
