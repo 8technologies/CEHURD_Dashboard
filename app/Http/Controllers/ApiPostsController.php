@@ -92,7 +92,7 @@ class ApiPostsController extends Controller
         $c->complaint_method  = $r->complaint_method;
         $c->case_category  = $r->case_category;
         $c->request  = $r->request_data;
-        $c->save(); 
+        $c->save();
         return $this->success($c, 'Case submitted successfully.');
 
 
