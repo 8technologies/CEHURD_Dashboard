@@ -142,7 +142,7 @@ class ApiPostsController extends Controller
         if ($c->save()) {
             $imgs =  Image::where([
                 'administrator_id' => $administrator_id,
-                'parent_endpoint' => $r->parent_endpoint,
+                'parent_endpoint' => trim($r->parent_endpoint),
                 'parent_id' => ((int)($r->obj_id))
             ])->get();
 
