@@ -96,8 +96,8 @@ class ApiPostsController extends Controller
         return $this->success($c, 'Case submitted successfully.');
 
 
- 
-/* 
+
+        /* 
 sub_county_text:Adjumani, Adropi
 :Romina K.
 
@@ -227,14 +227,37 @@ complaint_method
             return $this->error('User not found.');
         }
 
+        if (
+            !isset($request->parent_id) ||
+            $request->parent_id == null ||
+            ((int)($request->parent_id)) < 1
+        ) {
+            return $this->error('Local parent ID is missing.');
+        }
+
+
+        if (
+            !isset($request->parent_endpoint) ||
+            $request->parent_endpoint == null ||
+            (strlen(($request->parent_endpoint))) < 3
+        ) {
+            return $this->error('Local parent endpoing is missing.');
+        }
+
         $images = Utils::upload_images_1($_FILES, false);
         $_images = [];
+
+        if (empty($images)) {
+            return $this->error('Failed to upload files.');
+        }
+
         foreach ($images as $src) {
             $img = new Image();
             $img->administrator_id =  $administrator_id;
             $img->src =  $src;
             $img->thumbnail =  null;
-            $img->parent_id =  null;
+            $img->parent_endpoint =  $request->parent_endpoint;
+            $img->parent_id =  (int)($request->parent_id);
             $img->size = filesize(Utils::docs_root() . '/storage/images/' . $img->src);
             $img->save();
             $_images[] = $img;
@@ -242,7 +265,7 @@ complaint_method
         Utils::process_images_in_backround();
         return $this->success($_images, 'File uploaded successfully.');
     }
-
+ 
     public function process_pending_images()
     {
         Utils::process_images_in_foreround();
