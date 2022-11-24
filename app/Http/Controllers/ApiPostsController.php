@@ -74,9 +74,9 @@ class ApiPostsController extends Controller
         }
 
         if (
-            !isset($r->id) ||
-            $r->id == null ||
-            ((int)($r->id)) < 1
+            !isset($r->obj_id) ||
+            $r->obj_id == null ||
+            ((int)($r->obj_id)) < 1
         ) {
             return $this->error('Local parent ID is missing.');
         }
@@ -143,7 +143,7 @@ class ApiPostsController extends Controller
             $imgs =  Image::where([
                 'administrator_id' => $administrator_id,
                 'parent_endpoint' => $r->parent_endpoint,
-                'parent_id' => $r->id
+                'parent_id' => ((int)($r->obj_id))
             ])->get();
 
             foreach ($imgs as $key => $img) {
