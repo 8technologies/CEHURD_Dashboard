@@ -73,6 +73,50 @@ class ApiPostsController extends Controller
             return $this->error('Title is required.');
         }
 
+        if (
+            !isset($r->id) ||
+            $r->id == null ||
+            ((int)($r->id)) < 1
+        ) {
+            return $this->error('Local parent ID is missing.');
+        }
+
+
+        if (
+            !isset($r->parent_endpoint) ||
+            $r->parent_endpoint == null ||
+            (strlen(($r->parent_endpoint))) < 3
+        ) {
+            return $this->error('Local parent endpoing is missing.');
+        }
+
+/* 
+        $imgs =  Image::where([
+            'administrator_id' => $administrator_id,
+            'parent_endpoint' => $r->parent_endpoint,
+            'parent_id' => $r->id
+        ])->get();
+
+        return $imgs;
+
+
+        die("romina"); */
+
+        /* 
+"administrator_id": 1,
+"src": "1669267774-847703.jpg",
+"thumbnail": null,
+"parent_endpoint": "kiss.com",
+"parent_id": 1,
+"size": 175101,
+"updated_at": "2022-11-24T05:29:34.000000Z",
+"created_at": "2022-11-24T05:29:34.000000Z",
+"id": 97
+
+*/
+
+
+
         $c = new CaseModel();
         $c->sub_county  = $r->sub_county;
         $c->administrator_id  = $administrator_id;
@@ -93,58 +137,26 @@ class ApiPostsController extends Controller
         $c->case_category  = $r->case_category;
         $c->request  = $r->request_data;
         $c->save();
-        return $this->success($c, 'Case submitted successfully.');
 
 
-
-        /* 
-sub_county_text:Adjumani, Adropi
-:Romina K.
-
-
-
-=============================================================================
-
-id	
-created_at	
-updated_at	
-administrator_id	
-	
-district	
-sub_county	
-title	
-description	
-response	
-status	
-latitude	
-longitude	
-is_court	
-is_authority	
-request	
-phone_number_2	
-phone_number_1	
-address	
-village	
-sex	
-applicant_name	
-complaint_method	
-	
-*/
         if ($c->save()) {
-
             $imgs =  Image::where([
                 'administrator_id' => $administrator_id,
-                'parent_id' => null
+                'parent_endpoint' => $r->parent_endpoint,
+                'parent_id' => $r->id
             ])->get();
 
             foreach ($imgs as $key => $img) {
                 $img->parent_id = $c->id;
+                $img->parent_endpoint = 'CaseModel';
                 $img->save();
             }
             return $this->success([], 'Case submitted successfully.');
         } else {
             return $this->error('Filed to submit the case.');
         }
+
+        return $this->success($c, 'Case submitted successfully.');
 
         die($u->name);
     }
@@ -265,7 +277,7 @@ complaint_method
         Utils::process_images_in_backround();
         return $this->success($_images, 'File uploaded successfully.');
     }
- 
+
     public function process_pending_images()
     {
         Utils::process_images_in_foreround();
