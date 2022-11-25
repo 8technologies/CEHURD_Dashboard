@@ -43,7 +43,11 @@ class ApiPostsController extends Controller
     }
     public function index(Request $r)
     {
-        $data =  CaseModel::where([])->with('images')->get();
+        $u = auth('api')->user();
+
+        $data =  CaseModel::where([
+            'administrator_id' => $u->id
+        ])->with('images')->get();
         return $this->success($data, 'Case submitted successfully.');
     }
     public function create_post(Request $r)
@@ -90,7 +94,7 @@ class ApiPostsController extends Controller
             return $this->error('Local parent endpoing is missing.');
         }
 
-/* 
+        /* 
         $imgs =  Image::where([
             'administrator_id' => $administrator_id,
             'parent_endpoint' => $r->parent_endpoint,
