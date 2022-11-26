@@ -22,15 +22,16 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post("enterprises", [ApiEnterprisesController::class, 'create']);
     Route::get("enterprises", [ApiEnterprisesController::class, 'index']);
     Route::post("enterprises-select", [ApiEnterprisesController::class, 'select']);
-
+    
     //posts
     Route::post("post-media-upload", [ApiPostsController::class, 'upload_media']);
     Route::post("post", [ApiPostsController::class, 'create_post']);
     Route::post("activities", [ApiPostsController::class, 'create_activity']);
+    Route::get("activities", [ApiPostsController::class, 'activities']); 
 });
 
 Route::get("categories", [ApiPostsController::class, 'categories']); 
-Route::get("cases", [ApiPostsController::class, 'index']); 
+Route::get("cases", [ApiPostsController::class, 'index']);  
 Route::get('process-pending-images', [ApiPostsController::class, 'process_pending_images']);
 Route::get('locations', function (){
 

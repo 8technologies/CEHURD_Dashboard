@@ -35,12 +35,20 @@ class ApiPostsController extends Controller
             $d['short'] = $v;
             $d['url'] = Utils::get_category_pic($v);
             $d['count'] = CaseModel::where('case_category', $v)->count();
-
-
             $cats[] = $d;
         }
         return $this->success($cats, 'Case submitted successfully.');
     }
+    public function activities(Request $r)
+    {
+        $u = auth('api')->user();
+
+        $data =  ActivityReport::where([
+   /*          'reported_by' => $u->id */
+        ])->with('images')->get();
+        return $this->success($data, 'Activities listed successfully.');
+    }
+
     public function index(Request $r)
     {
         $u = auth('api')->user();

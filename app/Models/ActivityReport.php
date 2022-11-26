@@ -56,4 +56,8 @@ class ActivityReport extends Model
         });
     }
 
+    public function images()
+    {
+        return $this->hasMany(Image::class, 'parent_id');
+    }
 }
