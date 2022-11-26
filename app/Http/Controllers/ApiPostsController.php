@@ -44,8 +44,11 @@ class ApiPostsController extends Controller
         $u = auth('api')->user();
 
         $data =  ActivityReport::where([
-   /*          'reported_by' => $u->id */
-        ])->with('images')->get();
+            /*          'reported_by' => $u->id */])->with('images')
+
+            ->orderBy('id', 'Desc')
+            ->limit(50)
+            ->get();
         return $this->success($data, 'Activities listed successfully.');
     }
 
