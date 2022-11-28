@@ -14,9 +14,28 @@ class MyFaker  extends Model
 
         ini_set('memory_limit', '-1');
         set_time_limit('-1');
+        $f = Faker::create();
+
+        foreach (CaseModel::all() as $key => $c) {
+            $c->created_at = $f->dateTimeBetween('-1 year'); 
+            $c->updated_at = $f->dateTimeBetween('-1 year'); 
+            $c->save();
+        }
+
+
+        foreach (ActivityReport::all() as $key => $c) {
+            $c->created_at = $f->dateTimeBetween('-1 year'); 
+            $c->updated_at = $f->dateTimeBetween('-1 year'); 
+            $c->activity_date = $f->dateTimeBetween('-1 year'); 
+            $c->save();
+        }
+
+        die("romina");
+
+
 
         $admins = [];
-        $f = Faker::create();
+     
         $statuses = Utils::case_statuses();
 
         foreach (Administrator::all() as $key => $u) {
