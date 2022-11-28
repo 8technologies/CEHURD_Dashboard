@@ -20,7 +20,7 @@ class HomeController extends Controller
     public function index(Content $content)
     {
 
-        MyFaker::make_reports(2200);
+        //MyFaker::make_reports(2200);
         //MyFaker::make_cases(10000);
         //MyFaker::make_users(1000);
         // dd("done");
