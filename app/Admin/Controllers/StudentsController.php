@@ -209,7 +209,7 @@ class StudentsController extends AdminController
         $grid->column('id', __('Id'))->sortable();
         $grid->column('name', __('Name'))->sortable();
         $grid->column('phone_number_1', __('Phone number'))->hide();
-        $grid->column('phone_number_2', __('Phone number 2'))->hide();
+        $grid->column('phone_number_2', __('Alternative phone number'))->hide();
         $grid->column('email', __('Email'));
         $grid->column('date_of_birth', __('D.O.B'))->sortable();
         $grid->column('nationality', __('Nationality'))->sortable();

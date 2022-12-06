@@ -76,7 +76,7 @@ Edit Edit
         ])->sortable();
 
         $grid->column('phone_number_1', 'Phone number');
-        $grid->column('phone_number_2', 'Phone number 2');
+        $grid->column('phone_number_2', 'Alternative phone number');
         $grid->column('date_of_birth', 'D.O.B')->display(function ($f) {
             return Utils::my_date($f);
         });
@@ -99,7 +99,7 @@ Edit Edit
         $grid->column('cases', 'Cases Reported')->display(function () {
             return count($this->cases);
         });
-        $grid->column('reports', 'Reports')->display(function () {
+        $grid->column('reports', 'Activity reports')->display(function () {
             return count($this->reports);
         });
 
@@ -178,7 +178,7 @@ Edit Edit
         ])->rules('required');
 
         $form->text('phone_number_1', 'Phone number')->rules('required');
-        $form->text('phone_number_2', 'Phone number 2');
+        $form->text('phone_number_2', 'Alternative phone number');
 
         $form->select('sub_county_id', __('Sub county'))
             ->rules('int|required')

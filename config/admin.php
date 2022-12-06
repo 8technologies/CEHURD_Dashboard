@@ -421,7 +421,7 @@ return [
         'latlong' => [
 
             // Whether to enable this extension, defaults to true
-            'enable' => true,
+            'enable' => false,
 
             // Specify the default provider
             'default' => 'google',

@@ -135,7 +135,7 @@ class ActivityReportController extends AdminController
         $show->field('how_issues_will_be_followed_up', __('How issues will be followed up'));
         $show->field('recommendations', __('Recommendations'));
         $show->field('lessons_learned', __('Lessons learned'));
-        $show->field('challanges_solutions', __('Challanges solutions'));
+        $show->field('challanges_solutions', __('Solutions to challenges'));
         $show->field('challanges_faced', __('Challanges faced'));
         $show->field('issues_raised', __('Issues raised'));
         $show->field('activity_duration', __('Activity duration'));
@@ -169,7 +169,7 @@ class ActivityReportController extends AdminController
                 ->help('Where this case took place')
                 ->options(Location::get_sub_counties()->pluck('name_text', 'id'));
             $form->text('activity_venue', __("Activity venue"))->rules(['required']);
-            $form->quill('activity_description', __("Activity description"))->rules(['required'])
+            $form->textarea('activity_description', __("Activity description"))->rules(['required'])
                 ->help('Description of the Activity (JAS programme objective under which the activity falls, Objective of the activity and why was the activity conducted, describe how the activity was done, How many people attended disaggregated by main characteristics)');
         });
 
@@ -179,32 +179,34 @@ class ActivityReportController extends AdminController
             $form->text('number_of_conducted', __("Facilitator contact"))->rules(['required']);
         });
         $form->tab('Activity outcomes', function ($form) {
-            $form->decimal('activity_duration', __("Activity duration"))->help('In hours');
+
+            $form->datetimeRange('activity_start_date', "activity_start_end", 'Activity duration');
+
             $form->decimal('number_of_attended', __("How many attended?"));
-            $form->quill('issues_raised', __("Issues raised"))
+            $form->textarea('issues_raised', __("Issues raised"))
                 ->help('Important Issues raised during implementation (include commitments made by decision makers and problems raised by participants)');
 
-            $form->quill('how_issues_will_be_followed_up', __("How will you follow up on the issues identified during this meeting/activity mentioned above?"));
+            $form->textarea('how_issues_will_be_followed_up', __("How will you follow up on the issues identified during this meeting/activity mentioned above?"));
 
-            $form->quill('challanges_faced', __("Challenges faced"))
+            $form->textarea('challanges_faced', __("Challenges faced"))
                 ->help('What challenges did you face during the implementation of this activity?');
 
-            $form->quill('challanges_solutions', __("Challanges solutions"))
+            $form->textarea('challanges_solutions', __("Solutions to challenges"))
                 ->help('How did you address challenges you have just menstioned above?');
 
-            $form->quill('lessons_learned', __("Lessons learned"))
+            $form->textarea('lessons_learned', __("Lessons learned"))
                 ->help('Lessons learnt while implementing the activity');
-            $form->quill('recommendations', __("Recommendations"));
+            $form->textarea('recommendations', __("Recommendations"));
         });
 
-        $form->tab('Reaction', function ($form) {
-            $form->select('status', __("Case status"))
+        $form->tab('Action', function ($form) {
+            $form->select('status', __("Activity status"))
                 ->default('Pending')
                 ->help('Action made by CEHURD')
                 ->options(Utils::case_statuses())
                 ->rules(['required'])
                 ->when('in', ['Solved', 'Closed'], function (Form $form) {
-                    $form->quill('action_done', __('Action details'))->rules(['required']);
+                    $form->textarea('action_done', __('Action details'))->rules(['required']);
                 });
 
             $ajax_url = url(

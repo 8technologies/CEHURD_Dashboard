@@ -40,21 +40,18 @@ Admin::navbar(function (\Encore\Admin\Widgets\Navbar $navbar) {
 
         if ($u->isRole('admin')) {
             $links = [
-                'Member' => admin_url('/'),
-                'Case' => admin_url('/'),
+                'Case' => admin_url('/cases/create'),
+                'Activity report' => admin_url('/activity-reports/create'),
             ];
         }
 
         $navbar->left(Shortcut::make($links, 'fa-plus')->title('ADD NEW'));
 
-        $navbar->left(new Dropdown());
-
-        $check_list = [];
+       /*  $navbar->left(new Dropdown()); */
+ 
         $u = Auth::user();
+
       
-        $navbar->right(view('widgets.admin-links', [
-            'items' => $check_list
-        ]));
     }
 });
 

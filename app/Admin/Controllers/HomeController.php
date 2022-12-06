@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\CaseModel;
 use App\Models\MenuItem;
 use App\Models\MyFaker;
 use App\Models\Utils;
@@ -14,6 +15,7 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
 use Encore\Admin\Widgets\Box;
 use Illuminate\Support\Facades\Auth;
+use Faker\Factory as Faker;
 
 class HomeController extends Controller
 {
@@ -24,6 +26,27 @@ class HomeController extends Controller
         //MyFaker::make_cases(10000);
         //MyFaker::make_users(1000);
         // dd("done");
+        $sex = ['Female', 'Female', 'Female', 'Female', 'Male', 'Male', 'Other'];
+        $status = ['Reported', 'Reported', 'Closed', 'Active', 'Active', 'Active', 'Closed'];
+        $survivor_age = Utils::age_brackets();
+        $f = Faker::create();
+        foreach (CaseModel::all() as $key => $c) {
+            shuffle($survivor_age);
+            /*shuffle($sex);
+            $c->sex = $sex[(rand(100000, 10000000) % 5)];
+            $c->save(); 
+            $c->status = $status[(rand(100000, 10000000) % 5)];
+           
+            $c->updated_at = $f->dateTimeBetween('-1 year', '5 day');
+            $c->created_at = $f->dateTimeBetween('-1 year', '5 day');
+            $c->save();
+            $c->survivor_age = $survivor_age[(rand(100000, 10000000) % 2)];
+           
+            $c->survivor_name = $f->name;
+            $c->save(); */
+        }
+
+
 
         $content
             ->title('CEHURD - Dashboard')

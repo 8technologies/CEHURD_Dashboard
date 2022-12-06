@@ -173,7 +173,7 @@ class EmployeesController extends AdminController
         $grid->column('id', __('Id'))->sortable();
         $grid->column('name', __('Name'))->sortable();
         $grid->column('phone_number_1', __('Phone number'));
-        $grid->column('phone_number_2', __('Phone number 2'))->hide();
+        $grid->column('phone_number_2', __('Alternative phone number'))->hide();
         $grid->column('email', __('Email'));
         $grid->column('roles', trans('admin.roles'))->pluck('name')->label();
         $grid->column('date_of_birth', __('D.O.B'))->sortable();

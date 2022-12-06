@@ -23,7 +23,7 @@ use App\Models\Utils;
     <!--begin::Header-->
     <div class="d-flex justify-content-between px-3 px-md-4 ">
         <h3>
-            <b>Cases Vs Reactions</b>
+            <b>Cases Vs Action</b>
         </h3>
         <div>
             <a href="{{ url('/cases') }}" class="btn btn-sm btn-primary mt-md-4 mt-4">
@@ -62,17 +62,17 @@ use App\Models\Utils;
                     data: {
                         labels: JSON.parse('<?php echo json_encode($labels); ?>'),
                         datasets: [{
-                            label: 'Cases reported',
+                            label: 'Reported Cases',
                             borderColor: window.chartColors.blue,
                             backgroundColor: window.chartColors.blue,
-                            data: JSON.parse('<?php echo json_encode($reported_cases); ?>'),
+                            data: JSON.parse('<?php echo json_encode($Reported); ?>'),
                         }, {
-                            label: 'Cases Solved',
+                            label: 'Active Cases',
                             borderColor: window.chartColors.green,
                             backgroundColor: window.chartColors.green,
-                            data: JSON.parse('<?php echo json_encode($Solved); ?>'),
+                            data: JSON.parse('<?php echo json_encode($Active); ?>'),
                         }, {
-                            label: 'Cases Closed',
+                            label: 'Closed Cases',
                             borderColor: window.chartColors.red,
                             backgroundColor: window.chartColors.red,
                             data: JSON.parse('<?php echo json_encode($Closed); ?>'),

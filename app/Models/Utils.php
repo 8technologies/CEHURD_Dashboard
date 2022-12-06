@@ -34,16 +34,14 @@ class Utils  extends Model
 
     public static function tell_suspect_status_color($status)
     {
+    
         switch ($status) {
-            case 'Pending':
+            case 'Reported':
                 return 'default';
                 break;
             case 'Active':
-                return 'warning';
-                break;
-            case 'Solved':
                 return 'success';
-                break;
+                break; 
             case 'Closed':
                 return 'danger';
                 break;
@@ -310,12 +308,23 @@ class Utils  extends Model
         return $ent;
     }
 
+    public static function age_brackets()
+    {
+        return [
+            'Less than 10 years' => 'Less than 10 years',
+            '10 - 18 years' => '10 - 18 years',
+            '18 - 25 years' => '18 - 25 years',
+            '25 - 35 years' => '25 - 35 years',
+            '35 - 45 years' => '35 - 45 years',
+            'Above 45 years' => 'Above 45 years',
+        ];
+    }
+
     public static function case_statuses()
     {
         return [
-            'Pending' => 'Pending',
+            'Reported' => 'Reported',
             'Active' => 'Active',
-            'Solved' => 'Solved',
             'Closed' => 'Closed',
         ];
     }

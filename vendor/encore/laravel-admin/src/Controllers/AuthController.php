@@ -144,7 +144,7 @@ class AuthController extends Controller
         $form->date('date_of_birth', 'Date of birth');
  
         $form->text('phone_number_1', 'Phone number')->rules('required');
-        $form->text('phone_number_2', 'Phone number 2');
+        $form->text('phone_number_2', 'Alternative phone number');
 
         $form->select('sub_county_id', __('Sub county'))
             ->rules('int|required')

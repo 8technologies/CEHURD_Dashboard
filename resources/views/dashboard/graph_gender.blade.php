@@ -58,19 +58,21 @@ use App\Models\Utils;
                             data: [
                                 JSON.parse('<?php echo json_encode($males); ?>'),
                                 JSON.parse('<?php echo json_encode($females); ?>'),
+                                JSON.parse('<?php echo json_encode($other); ?>'),
                             ],
                             backgroundColor: [
                                 window.chartColors.red,
                                 window.chartColors.orange,
+                                window.chartColors.blue,
                                 window.chartColors.yellow,
                                 window.chartColors.green,
-                                window.chartColors.blue,
                             ],
                             label: 'Dataset 1'
                         }],
                         labels: [
                             'Males',
                             'Females',
+                            'Other',
                         ]
                     },
                     options: {

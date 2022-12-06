@@ -68,4 +68,10 @@ class CaseModel extends Model
             // ... code here
         });
     }
+
+    public function case_comments()
+    {
+        return $this->hasMany(CaseComment::class);
+    }
+
 }

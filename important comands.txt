@@ -76,6 +76,7 @@ php artisan make:migration create_terms_table
 php artisan make:migration create_student_has_classes_table
 php artisan make:migration create_student_has_optional_subjects_table
 php artisan make:migration create_case_categories_table
+php artisan make:migration create_case_comments_table
 php artisan make:migration create_activity_reports_table
 
 php artisan make:model BooksCategory
@@ -111,6 +112,7 @@ php artisan make:model StudentHasOptionalSubject
 php artisan make:model CaseModel
 php artisan make:model CaseCategory
 php artisan make:model ActivityReport
+php artisan make:model CaseComment
   
 
 

@@ -42,8 +42,9 @@ class CaseModelController extends AdminController
             $f->equal('case_category', 'Filter by case category')->select(
                 Utils::case_categpries()
             );
-            $f->like('applicant_name', 'Filter by victim name');
-            $f->equal('sex', 'Filter by victim\'s sex')->select([
+            $f->like('applicant_name', 'Filter by complainant name');
+            $f->like('survivor_name', 'Filter by survivor name');
+            $f->equal('sex', 'Filter by complainant\'s sex')->select([
                 'Male' => 'Male',
                 'Female' => 'Female',
             ]);
@@ -87,7 +88,7 @@ class CaseModelController extends AdminController
                     . "&search_by_1=name"
                     . "&search_by_2=id"
                     . "&model=User"
-            ); 
+            );
 
             $f->equal('administrator_id', 'Filter by reporter')->select(function ($id) {
                 $a = User::find($id);
@@ -108,9 +109,10 @@ class CaseModelController extends AdminController
             })->sortable();
         $grid->column('title', __('Title'));
         $grid->column('case_category', __('Category'))->sortable();
-        $grid->column('applicant_name', __('Victim'))->sortable();
+        $grid->column('applicant_name', __('Complainant'))->sortable();
+        $grid->column('survivor_name', __('Survivor name'));
         $grid->column('sex', __('Sex'))->sortable();
-
+        $grid->column('survivor_age', __('Survivor age'));
         $grid->column('district', __('District'))
             ->display(function ($f) {
                 return Utils::get(Location::class, $f)->name_text;
@@ -120,7 +122,7 @@ class CaseModelController extends AdminController
             ->display(function ($f) {
                 return Utils::get(Location::class, $f)->name_text;
             })->sortable();
-            
+
         $grid->column('is_authority', __('Authority'))
             ->using([
                 null => 'Not in Authority',
@@ -134,10 +136,10 @@ class CaseModelController extends AdminController
             ], 'danger')
             ->sortable();
 
-        $grid->column('is_court', __('In Court'))
+        $grid->column('is_court', __('Legal status'))
             ->using([
                 null => 'Not in court',
-                0 => 'Not in court',
+                0 => 'Other legal proceedings',
                 1 => 'In court',
             ])
             ->dot([
@@ -150,10 +152,9 @@ class CaseModelController extends AdminController
         $grid->column('status', __('Status'))
             ->label([
                 null => 'default',
-                'Pending' => 'default',
-                'Active' => 'warning',
-                'Solved' => 'success',
-                'Closed' => 'danger',
+                'Reported' => 'danger',
+                'Active' => 'success',
+                'Closed' => 'default',
             ], 'default')
             ->sortable();
 
@@ -210,18 +211,28 @@ class CaseModelController extends AdminController
                 $form->hidden('administrator_id', __('Enterprise id'))->default(Admin::user()->id)->rules('required');
             };
 
-            $form->text('applicant_name', __("Victim's name"))->rules(['required']);
-            $form->radio('sex', __("Victim's sex"))
+
+            $form->date('created_at', __("Date"))
+                ->help("When this case happened.")
+                ->rules(['required']);
+
+            $form->text('applicant_name', __("Complainant's name"))->rules(['required']);
+            $form->text('survivor_name', __("Survivor's name"))
+                ->help("Optional");
+            $form->radio('sex', __("Survivor's sex"))
                 ->options([
                     'Male' => 'Male',
-                    'Female' => 'Female'
+                    'Female' => 'Female',
+                    'Other' => 'Other'
                 ])
                 ->rules(['required']);
 
-
+            $form->radio('survivor_age', __("Survivor's age"))
+                ->options(Utils::age_brackets())
+                ->rules(['required']);
 
             $form->text('phone_number_1', __("Phone number"))->rules(['required']);
-            $form->text('phone_number_2', __("Phone number 2"));
+            $form->text('phone_number_2', __("Alternative phone number"));
 
             $form->divider();
             $form->select('case_category', __('Case category'))->options(Utils::case_categpries())
@@ -236,7 +247,7 @@ class CaseModelController extends AdminController
 
             $form->text('title', __('Case Title'))->rules(['required']);
             $form->quill('description', __('Case Description'))->rules(['required']);
-            $form->textarea('request', __('What remedy/remedies is the victim seeking for?'))->rules(['required']);
+            $form->textarea('request', __('What remedy/remedies is the complainant seeking for?'))->rules(['required']);
 
             $form->divider();
 
@@ -247,10 +258,10 @@ class CaseModelController extends AdminController
 
             $form->text('village', __('Village'))->rules(['required']);
             $form->text('address', __('Address'))->rules(['required']);
-            $form->latlong('latitude', 'longitude', 'Case location on map')->height(500)->rules('required');
+            /* $form->latlong('latitude', 'longitude', 'Case location on map')->height(500)->rules('required'); */
         });
 
-        $form->tab('Reaction', function ($form) {
+        $form->tab('Action', function ($form) {
 
             $form->radio('is_authority', __("Has the matter been submitted to or handled by any authority?"))
                 ->options([
@@ -259,10 +270,10 @@ class CaseModelController extends AdminController
                 ])
                 ->rules(['required']);
 
-            $form->radio('is_court', __("Is Court action or other legal proceedings pending?"))
+            $form->radio('is_court', __("Legal status"))
                 ->options([
-                    1 => 'Yes',
-                    0 => 'No'
+                    1 => 'In court',
+                    0 => 'Other legal proceedings',
                 ])
                 ->rules(['required']);
 
@@ -277,6 +288,12 @@ class CaseModelController extends AdminController
                 });
         });
 
+
+        $form->tab('More infomation', function (Form $form) {
+            $form->morphMany('case_comments', 'Click new to add more information', function (Form\NestedForm $form) {
+                $form->quill('body', __('More information'))->rules(['required']);
+            });
+        });
 
 
         return $form;

@@ -116,9 +116,11 @@ class Dashboard
         $data = [];
         $data['males'] = CaseModel::where('sex', 'Male')->count();
         $data['females'] = CaseModel::where('sex', 'Female')->count();
+        $data['other'] = CaseModel::where('sex', 'Other')->count();
         $data['labels'][] = 'Male';
         $data['labels'][] = 'Female';
-
+        $data['labels'][] = 'Other';
+        
         return view('dashboard.graph_gender', $data);
     }
 
@@ -133,9 +135,16 @@ class Dashboard
             $max->subDays($i);
             $min->subDays(($i + 1));
             $count = CaseModel::whereBetween('created_at', [$min, $max])->count();
-            $Solved = CaseModel::whereBetween('created_at', [$min, $max])
+
+            $Reported = CaseModel::whereBetween('created_at', [$min, $max])
                 ->where([
-                    'status' => 'Solved'
+                    'status' => 'Reported'
+                ])
+                ->count();
+
+            $Active = CaseModel::whereBetween('created_at', [$min, $max])
+                ->where([
+                    'status' => 'Active'
                 ])
                 ->count();
             $Closed = CaseModel::whereBetween('created_at', [$min, $max])
@@ -144,8 +153,8 @@ class Dashboard
                 ])
                 ->count();
             $data['data'][] = $count;
-            $data['reported_cases'][] = $count;
-            $data['Solved'][] = $Solved;
+            $data['Reported'][] = $Reported;
+            $data['Active'][] = $Active;
             $data['Closed'][] = $Closed;
             $data['labels'][] = Utils::my_date($max);
         }
