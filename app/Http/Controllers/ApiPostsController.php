@@ -118,9 +118,9 @@ class ApiPostsController extends Controller
         $u->phone_number_1 = $phone_number_1;
         $u->address = $r->address;
         if (!$u->save()) {
-            return $this->error('Failed to update profile. Please try again.');
+            return $this->error(null,'Failed to update profile. Please try again.');
         }
-        return $this->success('Profile updated successfully.');
+        return $this->success(null,'Profile updated successfully.');
     }
 
     public function create_post(Request $r)
