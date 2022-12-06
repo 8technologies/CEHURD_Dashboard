@@ -120,7 +120,7 @@ class ApiPostsController extends Controller
         if (!$u->save()) {
             return $this->error(null,'Failed to update profile. Please try again.');
         }
-        return $this->success(null,'Profile updated successfully.');
+        return $this->success($u,'Profile updated successfully.');
     }
 
     public function create_post(Request $r)
