@@ -78,7 +78,7 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
             $m->username = $m->email;
             $m->phone_number_1 = Utils::prepare_phone_number($m->phone_number_1);
             $m->phone_number_2 = Utils::prepare_phone_number($m->phone_number_2);
-            $m->name = $m->first_name . " " . $m->middle_name . " " . $m->last_name;
+            //$m->name = $m->first_name . " " . $m->middle_name . " " . $m->last_name;
 
             return $m;
         });
