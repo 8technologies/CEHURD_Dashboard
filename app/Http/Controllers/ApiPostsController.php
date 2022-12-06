@@ -118,10 +118,42 @@ class ApiPostsController extends Controller
         $u->phone_number_1 = $phone_number_1;
         $u->address = $r->address;
         if (!$u->save()) {
-            return $this->error(null,'Failed to update profile. Please try again.');
+            return $this->error(null, 'Failed to update profile. Please try again.');
         }
-        
-        return $this->success($u,'Profile updated successfully.');
+
+        return $this->success($u, 'Profile updated successfully.');
+    }
+
+    public function password_update(Request $r)
+    {
+        $u = auth('api')->user();
+        $administrator_id = $u->id;
+        $u = Administrator::find($administrator_id);
+        if ($u == null) {
+            return $this->error('User not found.');
+        }
+
+        if ($r->current_password == null || strlen($r->current_password) < 2) {
+            return $this->error('Current password is missing.');
+        }
+
+        if ($r->new_password == null || strlen($r->new_password) < 2) {
+            return $this->error('New is missing.');
+        }
+
+
+        if (!password_verify($r->current_password, $u->password)) {
+            return $this->error('Failed to udpate password. Wrong Current password.');
+        }
+
+        $u->password = password_hash($r->new_password, PASSWORD_DEFAULT);
+
+
+        if (!$u->save()) {
+            return $this->error(null, 'Failed to update password. Please try again.');
+        }
+
+        return $this->success($u, 'Password updated successfully.');
     }
 
     public function create_post(Request $r)
