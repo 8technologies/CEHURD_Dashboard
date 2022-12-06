@@ -143,7 +143,7 @@ class ApiPostsController extends Controller
 
 
         if (!password_verify($r->current_password, $u->password)) {
-            return $this->error('Failed to udpate password. Wrong Current password.');
+            return $this->error('Failed to udpate password. You entered wrong current password.');
         }
 
         $u->password = password_hash($r->new_password, PASSWORD_DEFAULT);
