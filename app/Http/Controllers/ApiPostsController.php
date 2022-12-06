@@ -61,6 +61,68 @@ class ApiPostsController extends Controller
         ])->with('images')->get();
         return $this->success($data, 'Case submitted successfully.');
     }
+
+
+    public function users_update(Request $r)
+    {
+        $u = auth('api')->user();
+        $administrator_id = $u->id;
+        $u = Administrator::find($administrator_id);
+        if ($u == null) {
+            return $this->error('User not found.');
+        }
+
+        if ($r->email == null || strlen($r->email) < 2) {
+            return $this->error('Email address is missing.');
+        }
+
+        if ($r->address == null || strlen($r->address) < 2) {
+            return $this->error('Address is missing.');
+        }
+
+        if ($r->phone_number_1 == null || strlen($r->phone_number_1) < 2) {
+            return $this->error('Phone number is required.');
+        }
+        if ($r->name == null || strlen($r->name) < 2) {
+            return $this->error('Your name is missing.');
+        }
+
+
+        $phone_number_1 = Utils::prepare_phone_number($r->phone_number_1);
+
+        if (!Utils::phone_number_is_valid($phone_number_1)) {
+            return $this->error('Enter valid Phone number.');
+        }
+
+        $u2 = Administrator::where([
+            'email' => $r->email
+        ])->first();
+        if ($u2 != null) {
+            if ($u2->id != $u->id) {
+                return $this->error('Another user with same Email aready exist.');
+            }
+        }
+        $u3 = Administrator::where([
+            'phone_number_1' => $phone_number_1
+        ])->first();
+        if ($u3 != null) {
+            if ($u3->id != $u->id) {
+                return $this->error('Another user with same phone number exist.');
+            }
+        }
+
+
+        $u->name = $r->name;
+        $u->email = $r->email;
+        $u->phone_number_1 = $phone_number_1;
+        $u->phone_number_1 = $phone_number_1;
+        $u->address = $r->address;
+        if (!$u->save()) {
+            return $this->error('Failed to update profile. Please try again.');
+        }
+        return $this->success('Profile updated successfully.');
+    }
+
     public function create_post(Request $r)
     {
         $u = auth('api')->user();
