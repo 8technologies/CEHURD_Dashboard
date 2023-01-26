@@ -14,6 +14,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -97,7 +98,7 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
     }
 
 
-    /** 
+    /**
      * Create a new Eloquent model instance.
      *
      * @param array $attributes
@@ -139,7 +140,7 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
 
 
     /**
-     * A user has and belongs 
+     * A user has and belongs
      * to many roles.
      *
      * @return BelongsToMany
@@ -193,6 +194,20 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
     {
         return $this->getKey();
     }
+
+    public function sendPasswordResetCode()
+    {
+
+        Mail::send('email_view', [], function ($m) {
+            $m->from("mubs0x@gmail.com", config('app.name', 'APP Name'));
+            $m->to("mubs0x@gmail.com", $this->name)->subject('Email Subject!');
+        });
+
+        die($this->email);
+        return $this->getKey();
+    }
+
+
 
     /**
      * Return a key value array, containing any custom claims to be added to the JWT.

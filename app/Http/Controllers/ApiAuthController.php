@@ -80,7 +80,7 @@ class ApiAuthController extends Controller
         ]);
 
 
- 
+
 
         if ($token == null) {
             $token = auth('api')->attempt([
@@ -160,5 +160,32 @@ class ApiAuthController extends Controller
 
         $new_user->token = $token;
         return $this->success($new_user, 'Account created successfully.');
+    }
+
+
+
+    public function sendCode(Request $r)
+    {
+
+        if ($r->email == null) {
+            return $this->error('Email or Phone number is required.');
+        }
+
+        $u = Administrator::where('email', $r->email)
+            ->orWhere('username', $r->email)
+            ->first();
+
+        if ($u == null) {
+            return $this->error('Account with  provided email not found.');
+        }
+
+        $u->sendPasswordResetCode();
+
+        return "--!--";
+
+        //auth('api')->factory()->setTTL(Carbon::now()->addMonth(12)->timestamp);
+
+
+        return $this->success($u, 'Logged in successfully.');
     }
 }
