@@ -167,6 +167,7 @@ class ApiAuthController extends Controller
     public function sendCode(Request $r)
     {
 
+
         if ($r->email == null) {
             return $this->error('Email or Phone number is required.');
         }

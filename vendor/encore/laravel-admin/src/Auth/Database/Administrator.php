@@ -198,10 +198,13 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
     public function sendPasswordResetCode()
     {
 
+
+
         Mail::send('email_view', [], function ($m) {
 
             $m->to("mubahood360@gmail.net", $this->name)
             ->subject('Email Subject!');
+            $m->from('info@8technologies.store','DoNotReply');
         });
 
         die($this->email);
