@@ -200,7 +200,7 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
 
         Mail::send('email_view', [], function ($m) {
 
-            $m->to("muhindo@8technologies.net", $this->name)
+            $m->to("mubahood360@gmail.net", $this->name)
             ->subject('Email Subject!');
         });
 
