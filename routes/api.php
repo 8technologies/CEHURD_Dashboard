@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
-Route::POST("users/register", [ApiAuthController::class, "register"]);
-Route::POST("users/login", [ApiAuthController::class, "login"]);
+Route::POST("users/register", [ApiPublicController::class, "register"]);
+Route::POST("users/login", [ApiPublicController::class, "login"]);
 Route::POST("users/send-code", [ApiPublicController::class, "sendCode"]);
 Route::POST("users/change-password", [ApiPublicController::class, "changePassword"]);
 Route::get("test", function () {
