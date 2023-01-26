@@ -11,8 +11,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::POST("users/register", [ApiAuthController::class, "register"]);
 Route::POST("users/login", [ApiAuthController::class, "login"]);
-Route::POST("users/send-code", [ApiAuthController::class, "sendCode"]);
-Route::POST("users/change-password", [ApiAuthController::class, "changePassword"]);
+Route::POST("users/send-code", [ApiPostsController::class, "sendCode"]);
+Route::POST("users/change-password", [ApiPostsController::class, "changePassword"]);
 Route::get("test", function () {
     die("Romina test");
 });
