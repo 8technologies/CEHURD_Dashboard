@@ -198,17 +198,24 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
     public function sendPasswordResetCode()
     {
 
+        $email = $this->email;
+        if ($email == null || strlen($email) < 3) {
+            $email = $this->username;
+        }
 
+        $this->code = rand(10000,99999);
+        $this->save();
 
-        Mail::send('email_view', [], function ($m) {
+        try {
+            Mail::send('email_view', ['u' => $this], function ($m) use ($email) {
+                $m->to($email, $this->name)
+                    ->subject('CEHURD APP - Password reset');
+                $m->from('info@8technologies.store', 'CEHURD APP');
+            });
+        } catch (\Throwable $th) {
+            throw $th;
+        }
 
-            $m->to("mubahood360@gmail.net", $this->name)
-            ->subject('Email Subject!');
-            $m->from('info@8technologies.store','DoNotReply');
-        });
-
-        die($this->email);
-        return $this->getKey();
     }
 
 
