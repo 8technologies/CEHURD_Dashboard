@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApiAuthController;
 use App\Http\Controllers\ApiEnterprisesController;
 use App\Http\Controllers\ApiPostsController;
+use App\Http\Controllers\ApiPublicController;
 use App\Models\Location;
 use App\Models\Utils;
 use Illuminate\Http\Request;
@@ -11,8 +12,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::POST("users/register", [ApiAuthController::class, "register"]);
 Route::POST("users/login", [ApiAuthController::class, "login"]);
-Route::POST("users/send-code", [ApiPostsController::class, "sendCode"]);
-Route::POST("users/change-password", [ApiPostsController::class, "changePassword"]);
+Route::POST("users/send-code", [ApiPublicController::class, "sendCode"]);
+Route::POST("users/change-password", [ApiPublicController::class, "changePassword"]);
 Route::get("test", function () {
     die("Romina test");
 });

@@ -25,7 +25,7 @@ abstract class Controller
         foreach ((array) $middleware as $m) {
             $this->middleware[] = [
                 'middleware' => $m,
-                'options' => &$options,
+                'options' => $options,
             ];
         }
 
