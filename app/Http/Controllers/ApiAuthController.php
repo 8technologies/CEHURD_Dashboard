@@ -33,7 +33,7 @@ class ApiAuthController extends Controller
             'login',
             'register',
             'change-password',
-            'send-code'
+            'send-code',
         ]]);
     }
 
