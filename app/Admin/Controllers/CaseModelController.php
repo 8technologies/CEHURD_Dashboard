@@ -176,16 +176,11 @@ class CaseModelController extends AdminController
     {
         $show = new Show(CaseModel::findOrFail($id));
 
-        $show->field('id', __('Id'));
-        $show->field('created_at', __('Created at'));
-        $show->field('updated_at', __('Updated at'));
-        $show->field('administrator_id', __('Administrator id'));
-        $show->field('case_category_id', __('Case category id'));
-        $show->field('district', __('District'));
-        $show->field('sub_county', __('Sub county'));
+
+        $show->field('created_at', __('Created'));
         $show->field('title', __('Title'));
-        $show->field('description', __('Description'));
-        $show->field('response', __('Response'));
+        $show->field('description', __('Description'))->unescape();
+        $show->field('response', __('Response'))->unescape();
         $show->field('status', __('Status'));
         $show->field('latitude', __('Latitude'));
         $show->field('longitude', __('Longitude'));

@@ -162,7 +162,10 @@ class ActivityReportController extends AdminController
             if ($form->isCreating()) {
                 $form->hidden('reported_by', __('reported_by'))->default(Admin::user()->id)->rules('required');
             };
-            $form->date('activity_date', __("Activity date"))->rules(['required']);
+            /*
+            $form->dateRange('activity_start_date', 'activity_start_end', 'Activity Start and End date'); */
+
+
             $form->text('activity_title', __("Activity title"))->rules(['required']);
             $form->select('sub_county', __('Sub county'))
                 ->rules('int|required')
@@ -180,23 +183,27 @@ class ActivityReportController extends AdminController
         });
         $form->tab('Activity outcomes', function ($form) {
 
-            $form->datetimeRange('activity_start_date', "activity_start_end", 'Activity duration');
+            $form->datetimeRange('activity_start_date', "activity_start_end", 'Activity duration')->rules(['required']);
 
-            $form->decimal('number_of_attended', __("How many attended?"));
+            $form->decimal('number_of_attended', __("How many attended?"))->rules(['required']);
             $form->textarea('issues_raised', __("Issues raised"))
+                ->rules(['required'])
                 ->help('Important Issues raised during implementation (include commitments made by decision makers and problems raised by participants)');
 
-            $form->textarea('how_issues_will_be_followed_up', __("How will you follow up on the issues identified during this meeting/activity mentioned above?"));
+            $form->textarea('how_issues_will_be_followed_up', __("How will you follow up on the issues identified during this meeting/activity mentioned above?"))->rules(['required']);
 
             $form->textarea('challanges_faced', __("Challenges faced"))
+                ->rules(['required'])
                 ->help('What challenges did you face during the implementation of this activity?');
 
             $form->textarea('challanges_solutions', __("Solutions to challenges"))
+                ->rules(['required'])
                 ->help('How did you address challenges you have just menstioned above?');
 
             $form->textarea('lessons_learned', __("Lessons learned"))
+                ->rules(['required'])
                 ->help('Lessons learnt while implementing the activity');
-            $form->textarea('recommendations', __("Recommendations"));
+            $form->textarea('recommendations', __("Recommendations"))->rules(['required']);
         });
 
         $form->tab('Action', function ($form) {

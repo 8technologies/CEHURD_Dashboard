@@ -31,6 +31,12 @@ class ActivityReport extends Model
                 $m->activity_duration = $start->diff($end)->format('%H:%I:%S');
             }
 
+            if($m->activity_start_date != null){
+                if(strlen($m->activity_start_date) > 3){
+                    $m->activity_date =  $m->activity_start_date;
+                }
+            }
+
 
             $m->number_of_conducted = Utils::prepare_phone_number($m->number_of_conducted);
 
@@ -55,6 +61,14 @@ class ActivityReport extends Model
                     $m->district = $sub->parent;
                 }
             }
+
+            if($m->activity_start_date != null){
+                if(strlen($m->activity_start_date) > 3){
+                    $m->activity_date =  $m->activity_start_date;
+                }
+            }
+
+
             return $m;
         });
 
