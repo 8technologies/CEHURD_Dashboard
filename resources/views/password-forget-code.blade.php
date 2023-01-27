@@ -1,16 +1,4 @@
 <?php
-
-session_start();
-$hasResetMessage = false;
-$resetMessage = '';
-
-if (isset($_SESSION['reset_message'])) {
-    if (strlen($_SESSION['reset_message']) > 3) {
-        $resetMessage = $_SESSION['reset_message'];
-        $hasResetMessage= true;
-        unset($_SESSION['reset_message']);
-    }
-}
 use App\Models\Utils;
 $ent = Utils::ent();
 
@@ -141,16 +129,8 @@ $ent = Utils::ent();
                 <!-- /.login-logo -->
                 <div class="login-box-body">
 
-
-
-                    <form action="{{ admin_url('auth/login') }}" method="post">
-                        <h3 class="text-center text-dark mb-2">Sign in</h3>
-
-
-                        @if ($hasResetMessage)
-                            <div class="alert alert-success">{{ $resetMessage }}</div>
-                        @endif
-
+                    <form action="{{ url('do-change-password') }}" method="post">
+                        <h3 class="text-center text-dark mb-2">Password Reset</h3>
                         <div class="form-group has-feedback {!! !$errors->has('username') ?: 'has-error' !!}">
 
                             @if ($errors->has('username'))
@@ -160,10 +140,25 @@ $ent = Utils::ent();
                                 @endforeach
                             @endif
 
-                            <input type="text" class="form-control" placeholder="Email address"
-                                name="username" value="{{ old('username') }}">
+                            <input type="email" class="form-control" placeholder="Email address" name="username"
+                                value="{{ $email }}">
                             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                         </div>
+                        <div class="form-group has-feedback {!! !$errors->has('code') ?: 'has-error' !!}">
+
+                            @if ($errors->has('code'))
+                                @foreach ($errors->get('code') as $message)
+                                    <label class="control-label" for="inputError"><i
+                                            class="fa fa-times-circle-o"></i>{{ $message }}</label><br>
+                                @endforeach
+                            @endif
+
+                            <input type="text" class="form-control" value="{{ old('code') }}"
+                                placeholder="Enter code" name="code">
+                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        </div>
+
+
                         <div class="form-group has-feedback {!! !$errors->has('password') ?: 'has-error' !!}">
 
                             @if ($errors->has('password'))
@@ -173,17 +168,34 @@ $ent = Utils::ent();
                                 @endforeach
                             @endif
 
-                            <input type="password" class="form-control" placeholder="{{ trans('admin.password') }}"
+                            <input type="password" class="form-control" placeholder="Enter new password"
                                 name="password">
                             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                         </div>
+
+                        <div class="form-group has-feedback {!! !$errors->has('password') ?: 'has-error' !!}">
+
+                            @if ($errors->has('password_2'))
+                                @foreach ($errors->get('password_2') as $message)
+                                    <label class="control-label" for="inputError"><i
+                                            class="fa fa-times-circle-o"></i>{{ $message }}</label><br>
+                                @endforeach
+                            @endif
+
+                            <input type="password" class="form-control" placeholder="Re-enter password"
+                                name="password_2">
+                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        </div>
+
+
+
                         <div class="row">
                             <div class="col-xs-8">
                                 @if (config('admin.auth.remember'))
                                     <div class="checkbox icheck">
 
-                                        <p><a href="{{ url('password-forget-email') }}" style="color: {{ $ent->color }};">Forgot
-                                                password</a></p>
+                                        <p><a href="{{ admin_url('auth/login') }}"
+                                                style="color: {{ $ent->color }};">Cancel password reset process</a></p>
                                         {{-- <label>
                                             <input type="checkbox" name="remember" value="1"
                                                 {{ !old('username') || old('remember') ? 'checked' : '' }}>
@@ -196,7 +208,7 @@ $ent = Utils::ent();
                             <div class="col-xs-4">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <button type="submit" class="btn  btn-block btn-flat"
-                                    style="background-color: {{ $ent->color }}; color: white">{{ trans('admin.login') }}</button>
+                                    style="background-color: {{ $ent->color }}; color: white">SUBMIT</button>
                             </div>
                             <!-- /.col -->
                         </div>

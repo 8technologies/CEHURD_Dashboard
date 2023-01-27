@@ -21,6 +21,7 @@
 use Encore\Admin\Facades\Admin;
 use App\Admin\Extensions\Nav\Shortcut;
 use App\Admin\Extensions\Nav\Dropdown;
+use App\Models\AdminRoleUser;
 use App\Models\Utils;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,30 +29,40 @@ Encore\Admin\Form::forget(['map', 'editor']);
 
 $u = Auth::user();
 
+if ($u != null) {
+    if (count($u->roles) < 1) {
+        $r = new AdminRoleUser();
+        $r->user_id = $u->id;
+        $r->role_id = 3;
+        $r->save();
+    }
+}
+
 Admin::navbar(function (\Encore\Admin\Widgets\Navbar $navbar) {
-
     $u = Auth::user();
-    $navbar->left(view('admin.search-bar', [
-        'u' => $u
-    ]));
-    $links = [];
-
     if ($u != null) {
 
-        if ($u->isRole('admin')) {
-            $links = [
-                'Case' => admin_url('/cases/create'),
-                'Activity report' => admin_url('/activity-reports/create'),
-            ];
+
+        $navbar->left(view('admin.search-bar', [
+            'u' => $u
+        ]));
+        $links = [];
+
+        if ($u != null) {
+
+            if ($u->isRole('admin')) {
+                $links = [
+                    'Case' => admin_url('/cases/create'),
+                    'Activity report' => admin_url('/activity-reports/create'),
+                ];
+            }
+
+            $navbar->left(Shortcut::make($links, 'fa-plus')->title('ADD NEW'));
+
+            /*  $navbar->left(new Dropdown()); */
+
+            $u = Auth::user();
         }
-
-        $navbar->left(Shortcut::make($links, 'fa-plus')->title('ADD NEW'));
-
-       /*  $navbar->left(new Dropdown()); */
- 
-        $u = Auth::user();
-
-      
     }
 });
 

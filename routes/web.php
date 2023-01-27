@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\PrintController2;
 use App\Models\AcademicClass;
 use App\Models\Book;
@@ -22,7 +23,7 @@ use Faker\Factory as Faker;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/* 
+/*
 Route::get('/', function () {
 
   $clases = AcademicClass::where([
@@ -34,8 +35,8 @@ Route::get('/', function () {
 
   $i = 1;
 
-  for ($x=0; $x < 1000; $x++) { 
-    
+  for ($x=0; $x < 1000; $x++) {
+
   foreach ($clases as $key => $cl) {
     $i++;
     $sex = ['Male', 'Female'];
@@ -68,7 +69,7 @@ Route::get('/', function () {
     shuffle($sex);
     $u->sex = $sex[0];
     $u->save();
- 
+
 
     $has_class = new StudentHasClass();
     $has_class->enterprise_id = $u->enterprise_id;
@@ -79,7 +80,7 @@ Route::get('/', function () {
 
     echo $cl->id . " === " . $u->phone_number_1 . "<hr>";
   }
- 
+
   }
 
 
@@ -90,6 +91,11 @@ Route::get('/', function () {
  */
 
 Route::match(['get', 'post'], '/print', [PrintController2::class, 'index']);
+Route::get('/password-forget-email', [MainController::class, 'password_forget_email'])->name("password-forget-email");
+Route::get('/password-forget-code', [MainController::class, 'password_forget_code'])->name("password-forget-code");
+Route::POST("do-change-password", [MainController::class, "doChangePassword"]);
+Route::post('/password-forget-email', [MainController::class, 'password_forget_email_post']);
+
 Route::get('/register', function () {
   die("register");
 })->name("register");

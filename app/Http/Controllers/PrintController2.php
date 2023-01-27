@@ -14,9 +14,9 @@ class PrintController2 extends Controller
     {
         return '<tr>
                     <th class="title-cell" >' . $t1 . '</th>
-                    <td>' . $d1 . '</td> 
+                    <td>' . $d1 . '</td>
                     <th class="title-cell">' . $t2 . '</th>
-                    <td>' . $d2 . '</td> 
+                    <td>' . $d2 . '</td>
                 </tr>';
     }
 
@@ -95,11 +95,11 @@ class PrintController2 extends Controller
             @page { margin: 15px; }
             .font-serif{
                 font-family:  sans-serif!important;
-            } 
+            }
             p{
                 font-size: 12px;
                 padding: 0;
-                margin: 0; 
+                margin: 0;
             }
             .title-cell{
                 width: 25%;
@@ -109,23 +109,23 @@ class PrintController2 extends Controller
                 font-family:  sans-serif;
                 font-weight: 100;
             }
-           
+
             table, th, td {
                 font-weight: 100;
                 text-align: reight;
                 font-family:  sans-serif;
-                font-size: 12px; 
+                font-size: 12px;
                 border-collapse: collapse;
                 padding: 4px;
             }
 
-            .marks-cell tr td, 
-            .marks-cell thead tr th, 
+            .marks-cell tr td,
+            .marks-cell thead tr th,
             {
                 font-weight: 100;
                 text-align: reight;
                 font-family:  sans-serif;
-                font-size: 12px; 
+                font-size: 12px;
                 border-collapse: collapse;
                 border: 1px solid black;
                 padding: 4px;
@@ -204,7 +204,7 @@ class PrintController2 extends Controller
         $data .= '<table>
                     <tr>
                         <td style="width: 15%;" ><img class="img-fluid" src="' . $r->school_photo_url . '"></td>
-                        <td class="text-center">' . $head . '</td> 
+                        <td class="text-center">' . $head . '</td>
                         <td style="width: 15%;" ><img class="img-fluid" src="' . $r->school_student_photo . '"></td>
                     </tr>
                 </table>';
@@ -213,13 +213,13 @@ class PrintController2 extends Controller
                     <tr>
                         <td class="fs-5">NAME: <b>Muhindo Mubaraka</b></td>
                         <td class="fs-5">SEX: <b>Male</b></td>
-                        <td class="fs-5 text-right">REG No.: <b>U1211</b></td> 
-                    </tr>        
+                        <td class="fs-5 text-right">REG No.: <b>U1211</b></td>
+                    </tr>
                     <tr>
                         <td class="fs-5">CLASS: <b>S.6 Lion</b></td>
                         <td class="fs-5">Aggregates.: <b>12</b> </td>
-                        <td class="fs-5 text-right">Grade: <b>B</b></td> 
-                    </tr>    
+                        <td class="fs-5 text-right">Grade: <b>B</b></td>
+                    </tr>
                 </table>';
 
         $data .= '<table class="bordered-table marks-cell" >
@@ -235,11 +235,11 @@ class PrintController2 extends Controller
                             <th>Aggr</th>
                             <th>Remarks</th>
                             <th>Initials</th>
-                        </tr>        
-                    </thead>       
+                        </tr>
+                    </thead>
                     <tbody>
-                    ' . $rows . '       
-                    </tbody>       
+                    ' . $rows . '
+                    </tbody>
             </table>';
 
 
@@ -252,5 +252,5 @@ class PrintController2 extends Controller
         return $pdf->stream();
     }
 
-    // 
+    //
 }
