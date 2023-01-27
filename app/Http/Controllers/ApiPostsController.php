@@ -245,6 +245,9 @@ class ApiPostsController extends Controller
         $c->applicant_name  = $r->applicant_name;
         $c->complaint_method  = $r->complaint_method;
         $c->case_category  = $r->case_category;
+        $c->survivor_name  = $r->survivor_name;
+        $c->complaint_method  = $r->complaint_method;
+        $c->survivor_age  = $r->survivor_age;
         $c->request  = $r->request_data;
         $c->save();
 
@@ -318,7 +321,6 @@ class ApiPostsController extends Controller
         $activity->approved_by = $u->id;
         $activity->activity_start_date = $u->activity_start_date;
         $activity->activity_title = $u->activity_start_date;
-        $activity->activity_title = $u->activity_date;
         $activity->activity_start_end = $u->activity_start_end;
         $activity->status = 'Pending';
         $activity->action_done = '';
