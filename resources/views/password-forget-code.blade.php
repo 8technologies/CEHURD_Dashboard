@@ -1,4 +1,17 @@
 <?php
+
+session_start();
+$hasResetMessage = false;
+$resetMessage = '';
+
+if (isset($_SESSION['reset_message'])) {
+    if (strlen($_SESSION['reset_message']) > 3) {
+        $resetMessage = $_SESSION['reset_message'];
+        $hasResetMessage= true;
+        unset($_SESSION['reset_message']);
+    }
+}
+
 use App\Models\Utils;
 $ent = Utils::ent();
 
@@ -131,6 +144,13 @@ $ent = Utils::ent();
 
                     <form action="{{ url('do-change-password') }}" method="post">
                         <h3 class="text-center text-dark mb-2">Password Reset</h3>
+
+
+                        @if ($hasResetMessage)
+                            <div class="alert alert-success">{{ $resetMessage }}</div>
+                        @endif
+
+
                         <div class="form-group has-feedback {!! !$errors->has('username') ?: 'has-error' !!}">
 
                             @if ($errors->has('username'))
