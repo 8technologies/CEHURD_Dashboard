@@ -316,7 +316,10 @@ class ApiPostsController extends Controller
         $activity->number_of_attended = $r->number_of_attended;
         $activity->reported_by = $u->id;
         $activity->approved_by = $u->id;
-        $activity->activity_title = $u->activity_title;
+        $activity->activity_start_date = $u->activity_start_date;
+        $activity->activity_title = $u->activity_start_date;
+        $activity->activity_title = $u->activity_date;
+        $activity->activity_start_end = $u->activity_start_end;
         $activity->status = 'Pending';
         $activity->action_done = '';
         if ($activity->save()) {
