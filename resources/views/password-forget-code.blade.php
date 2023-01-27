@@ -1,6 +1,5 @@
 <?php
 
-session_start();
 $hasResetMessage = false;
 $resetMessage = '';
 
