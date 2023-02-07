@@ -207,7 +207,7 @@ $ent = Utils::ent();
                     <br>
                     <br>
                     <h4 class="text-center d-dark">OUR PARTNERS</h4>
-                    <img class="img-fluid center " width="80%" src="{{ url('assets/logo_2.png') }}" alt="">
+                    <img class="img-fluid center " width="80%" src="{{ url('assets/logo_3.png') }}" alt="">
 
                 </div>
                 <!-- /.login-box-body -->
