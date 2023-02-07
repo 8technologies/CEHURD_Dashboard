@@ -96,6 +96,12 @@ Route::get('/password-forget-code', [MainController::class, 'password_forget_cod
 Route::POST("do-change-password", [MainController::class, "doChangePassword"]);
 Route::post('/password-forget-email', [MainController::class, 'password_forget_email_post']);
 
+Route::get('/app', function () {
+  header("Content-Type: application/octet-stream");
+  return redirect(url('storage/cehurd-v1.apk'));
+})->name("app");
+
+
 Route::get('/register', function () {
   die("register");
 })->name("register");
