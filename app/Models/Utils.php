@@ -279,6 +279,14 @@ class Utils  extends Model
         return $c->format('d M, Y');
     }
 
+    public static function my_date_time($t)
+    {
+        $c = Carbon::parse($t);
+        if ($t == null) {
+            return $t;
+        }
+        return $c->format('d M, Y - h:m a');
+    }
 
 
     public static function ent()

@@ -32,6 +32,36 @@ class CaseModelController extends AdminController
 
         $grid = new Grid(new CaseModel());
 
+        $grid->export(function ($export) {
+
+            $export->filename('Cases-report.csv');
+
+            //$export->except(['column1', 'column2' ...]);
+
+            // $export->only(['column3', 'column4' ...]);
+
+            $export->originalValue(['status']); 
+
+            $export->column('is_authority', function ($value, $original) {
+                if (((int)($original)) == 1) {
+                    return ' In court';
+                } else {
+                    return 'Other legal proceedings';
+                }
+            });
+            $export->column('is_court', function ($value, $original) {
+                if (((int)($original)) == 1) {
+                    return ' Yes';
+                } else {
+                    return ' No';
+                }
+            });
+ 
+
+  
+        });
+
+
         $grid->model()
             ->orderBy('created_at', 'Desc');
 
@@ -174,16 +204,75 @@ class CaseModelController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(CaseModel::findOrFail($id));
+        $m = CaseModel::findOrFail($id);
+        $show = new Show($m);
 
 
-        $show->field('created_at', __('Created'));
+        $show->field('created_at', __('Reported'))
+            ->as(function ($created_at) {
+                return Utils::my_date($created_at);
+            });
+
         $show->field('title', __('Title'));
+        $show->field('case_category', __('Category'));
         $show->field('description', __('Description'))->unescape();
+        $show->field('request', __('Request'))->unescape();
         $show->field('response', __('Response'))->unescape();
+
+        $show->field('applicant_name', __('Complainant\'s name'));
+        $show->field('complaint_method', __('Complaina method'));
+        $show->field('phone_number_1', __('Complainant\'s phone number'))->unescape();
+        $show->field('phone_number_2', __('Complainant\'s alternative phone number'))->unescape();
+
+
+        $show->field('sub_county', __('Sub-county'))->as(function ($f) {
+            return Utils::get(Location::class, $f)->name_text;
+        });
+
+        $show->field('address', __('Hoome address'))->unescape();
+        $show->field('village', __('Village'))->unescape();
+
+        $show->field('survivor_name', __('Survivor\'s name'));
+
+        $show->field('sex', __('Survivor\'s Gender'));
+        $show->field('survivor_age', __('Survivor\'s age'));
+
+
+
         $show->field('status', __('Status'));
-        $show->field('latitude', __('Latitude'));
-        $show->field('longitude', __('Longitude'));
+
+
+        $show->field('is_court', __('Is Court action or other legal proceedings pending?'))
+            ->as(function ($is_court) {
+                if (((int)($is_court)) == 1) {
+                    return 'Yes';
+                } else {
+                    return 'No';
+                }
+            });
+
+        $show->field('is_authority', __('Has the matter been submitted to or handled by any authority?'))
+            ->as(function ($is_court) {
+                if (((int)($is_court)) == 1) {
+                    return 'Yes';
+                } else {
+                    return 'No';
+                }
+            });
+
+        $show->file('G.P.S Location')->unescape()->as(function () {
+
+            $link = "https://www.google.com/maps/search/?api=1&query={$this->latitude},{$this->longitude}";
+            return '<a  href="' . $link . '" target="_blank" >VIEW ON MAP</a>';
+        });
+
+
+        $show->field('administrator_id', __('Reported by'))
+            ->as(function ($administrator_id) {
+                return Utils::get(Administrator::class, $administrator_id)->name;
+            });
+
+
 
         return $show;
     }
@@ -223,8 +312,7 @@ class CaseModelController extends AdminController
                 ->rules(['required']);
 
             $form->radio('survivor_age', __("Survivor's age"))
-                ->options(Utils::age_brackets())
-                ->rules(['required']);
+                ->options(Utils::age_brackets());
 
             $form->text('phone_number_1', __("Phone number"))->rules(['required']);
             $form->text('phone_number_2', __("Alternative phone number"));
@@ -241,18 +329,18 @@ class CaseModelController extends AdminController
                 ->rules(['required']);
 
             $form->text('title', __('Case Title'))->rules(['required']);
-            $form->quill('description', __('Case Description'))->rules(['required']);
+            $form->quill('description', __('Case Description'));
             $form->textarea('request', __('What remedy/remedies is the complainant seeking for?'))->rules(['required']);
 
             $form->divider();
 
             $form->select('sub_county', __('Sub county'))
-                ->rules('int|required')
                 ->help('Where this case took place')
-                ->options(Location::get_sub_counties()->pluck('name_text', 'id'));
+                ->options(Location::get_sub_counties()->pluck('name_text', 'id'))
+                ->rules(['required']);
 
             $form->text('village', __('Village'))->rules(['required']);
-            $form->text('address', __('Address'))->rules(['required']);
+            $form->text('address', __('Home Address'))->rules(['required']);
             /* $form->latlong('latitude', 'longitude', 'Case location on map')->height(500)->rules('required'); */
         });
 

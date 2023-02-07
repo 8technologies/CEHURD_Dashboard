@@ -77,10 +77,8 @@ class ActivityReportController extends AdminController
         $grid->quickSearch('activity_title')->placeholder('Search by activity title...');
 
         $grid->column('id', __('ID'))->hide();
-        $grid->column('activity_date', __('Date'))
-            ->display(function ($f) {
-                return Utils::my_date($f);
-            })->sortable();
+
+
         $grid->column('activity_title', __('Title'));
         $grid->column('facilitator_name', __('Facilitator'));
 
@@ -95,6 +93,9 @@ class ActivityReportController extends AdminController
             })->sortable();
 
         $grid->column('number_of_attended', __('No. of attendants'));
+        $grid->column('facilitator_name', __('Facilitant Name'));
+        $grid->column('number_of_conducted', __('Facilitant Contact'));
+
         $grid->column('reported_by', __('Reported by'))
             ->display(function ($f) {
                 return Utils::get(Administrator::class, $f)->name;
@@ -109,6 +110,13 @@ class ActivityReportController extends AdminController
                 'Closed' => 'danger',
             ], 'default')
             ->sortable();
+
+        $grid->column('activity_start_date', __('Duration'))
+            ->display(function ($f) {
+                return (Utils::my_date_time($this->activity_start_date) . " - " .
+                    Utils::my_date_time($this->activity_start_end)
+                );
+            })->sortable();
         return $grid;
     }
 
@@ -168,7 +176,6 @@ class ActivityReportController extends AdminController
 
             $form->text('activity_title', __("Activity title"))->rules(['required']);
             $form->select('sub_county', __('Sub county'))
-                ->rules('int|required')
                 ->help('Where this case took place')
                 ->options(Location::get_sub_counties()->pluck('name_text', 'id'));
             $form->text('activity_venue', __("Activity venue"))->rules(['required']);

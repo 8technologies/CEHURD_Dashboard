@@ -132,6 +132,7 @@ $ent = Utils::ent();
                     {{-- <h2>Log in to your account</h2> --}}
 
                     <img class="img-fluid center " width="90%" src="{{ url('assets/logo_1.png') }}" alt="">
+ 
 
                     <br>
                     <hr width="20%" class="bg-primary text-primary">
@@ -201,6 +202,12 @@ $ent = Utils::ent();
                             <!-- /.col -->
                         </div>
                     </form>
+
+                    <br>
+                    <br>
+                    <br>
+                    <h4 class="text-center d-dark">OUR PARTNERS</h4>
+                    <img class="img-fluid center " width="80%" src="{{ url('assets/logo_2.png') }}" alt="">
 
                 </div>
                 <!-- /.login-box-body -->
