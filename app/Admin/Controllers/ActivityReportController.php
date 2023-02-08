@@ -33,7 +33,7 @@ class ActivityReportController extends AdminController
         $grid->disableBatchActions();
 
         if (
-            (!Admin::user()->isRole('admin')) ||
+            (!Admin::user()->isRole('admin')) &&
             (!Admin::user()->isRole('manager'))
         ) {
             $grid->model()->where([

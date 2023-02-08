@@ -59,7 +59,7 @@ class CaseModelController extends AdminController
         });
 
         if (
-            (!Admin::user()->isRole('admin')) ||
+            (!Admin::user()->isRole('admin'))&&
             (!Admin::user()->isRole('manager'))
         ) {
             $grid->model()->where([
