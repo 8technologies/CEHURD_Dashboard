@@ -37,7 +37,7 @@ class ActivityReportController extends AdminController
             (!Admin::user()->isRole('manager'))
         ) {
             $grid->model()->where([
-                'administrator_id' =>  Admin::user()->id
+                'reported_by' =>  Admin::user()->id
             ]);
         }
 
