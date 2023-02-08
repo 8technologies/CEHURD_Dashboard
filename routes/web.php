@@ -97,8 +97,7 @@ Route::POST("do-change-password", [MainController::class, "doChangePassword"]);
 Route::post('/password-forget-email', [MainController::class, 'password_forget_email_post']);
 
 Route::get('/app', function () {
-  header("Content-Type: application/octet-stream");
-  return redirect(url('storage/cehurd-v1.apk'));
+  return redirect('https://drive.google.com/file/d/1f3HBt9MgD74-SIO1xyX4JpZIxXcdW6V9/view?usp=sharing');
 })->name("app");
 
 
