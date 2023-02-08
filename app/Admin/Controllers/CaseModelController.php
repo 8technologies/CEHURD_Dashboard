@@ -40,7 +40,7 @@ class CaseModelController extends AdminController
 
             // $export->only(['column3', 'column4' ...]);
 
-            $export->originalValue(['status']); 
+            $export->originalValue(['status']);
 
             $export->column('is_authority', function ($value, $original) {
                 if (((int)($original)) == 1) {
@@ -56,11 +56,16 @@ class CaseModelController extends AdminController
                     return ' No';
                 }
             });
- 
-
-  
         });
 
+        if (
+            (!Admin::user()->isRole('admin')) ||
+            (!Admin::user()->isRole('manager'))
+        ) {
+            $grid->model()->where([
+                'administrator_id' =>  Admin::user()->id
+            ]);
+        }
 
         $grid->model()
             ->orderBy('created_at', 'Desc');

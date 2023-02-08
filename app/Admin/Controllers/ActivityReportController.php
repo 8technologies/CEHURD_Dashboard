@@ -31,6 +31,16 @@ class ActivityReportController extends AdminController
     {
         $grid = new Grid(new ActivityReport());
         $grid->disableBatchActions();
+
+        if (
+            (!Admin::user()->isRole('admin')) ||
+            (!Admin::user()->isRole('manager'))
+        ) {
+            $grid->model()->where([
+                'administrator_id' =>  Admin::user()->id
+            ]);
+        }
+
         $grid->model()
             ->orderBy('activity_date', 'Desc');
 
