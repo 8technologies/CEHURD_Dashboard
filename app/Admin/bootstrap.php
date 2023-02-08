@@ -50,12 +50,10 @@ Admin::navbar(function (\Encore\Admin\Widgets\Navbar $navbar) {
 
         if ($u != null) {
 
-            if ($u->isRole('admin')) {
-                $links = [
-                    'Case' => admin_url('/cases/create'),
-                    'Activity report' => admin_url('/activity-reports/create'),
-                ];
-            }
+            $links = [
+                'Case' => admin_url('/cases/create'),
+                'Activity report' => admin_url('/activity-reports/create'),
+            ]; 
 
             $navbar->left(Shortcut::make($links, 'fa-plus')->title('ADD NEW'));
 
