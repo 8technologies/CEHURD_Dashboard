@@ -32,7 +32,7 @@ class HomeController extends Controller
         $f = Faker::create();
         foreach (CaseModel::all() as $key => $c) {
             shuffle($survivor_age);
-            /*shuffle($sex);
+           shuffle($sex);
             $c->sex = $sex[(rand(100000, 10000000) % 5)];
             $c->save(); 
             $c->status = $status[(rand(100000, 10000000) % 5)];
@@ -43,7 +43,7 @@ class HomeController extends Controller
             $c->survivor_age = $survivor_age[(rand(100000, 10000000) % 2)];
            
             $c->survivor_name = $f->name;
-            $c->save(); */
+            $c->save();  
         }
 
 
