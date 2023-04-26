@@ -159,8 +159,14 @@ class ActivityReportController extends AdminController
         $show->field('activity_duration', __('Activity duration'));
         $show->field('number_of_conducted', __('Number of conducted'));
         $show->field('number_of_attended', __('Number of attended'));
-        $show->field('reported_by', __('Reported by'));
-        $show->field('approved_by', __('Approved by'));
+        $show->field('reported_by', __('Reported by'))
+        ->as(function ($administrator_id) {
+            return Utils::get(Administrator::class, $administrator_id)->name;
+        });
+        $show->field('approved_by', __('Approved by'))
+        ->as(function ($administrator_id) {
+            return Utils::get(Administrator::class, $administrator_id)->name;
+        });
         $show->field('status', __('Status'));
 
         return $show;
